@@ -45,6 +45,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
     if(doYouWrite){
 	  context.font = fontSize;	
+	  context.globalAlpha = 0.5;	
 	  context.fillStyle	 = color;
       context.fillText(line, x, y);
     }
@@ -118,7 +119,9 @@ $(document).ready(function(){
 	
 	$('#turnModel1').click(function(){
 		
+		$('#modelone').toggle("slow");
 		$('#modelone').show();
+		
 		
 		clearDrawing();
 		

@@ -1,5 +1,6 @@
 let examplePicture = 'images/examplePicture.jpg';
 let browseInputButton = '<input id="fileToUpload" type="file" />';
+let userPicture;
 
 var CanvasText = new CanvasText;
 
@@ -109,6 +110,7 @@ $(document).ready(function(){
            //console.dir(ev2);
            //$('.editPic').attr('src', ev2.target.result);
            imageObj.src= ev2.target.result;
+		   userPicture = ev2.target.result;
        };
 
        fr.readAsDataURL(f);
@@ -125,6 +127,9 @@ $(document).ready(function(){
 		
 		clearDrawing();
 		
+		if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
+		alert(userPicture)
+		
 		imageObj.onload = function(){
 		context.drawImage(imageObj, 0, 0);
 		wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
@@ -134,7 +139,7 @@ $(document).ready(function(){
 	}
 		
 	
-	imageObj.src = examplePicture;
+	imageObj.src = userPicture;
 		
 	});
 	

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Watermarker</title>	
+<title>Simple Watermarker</title>	
 <link rel="stylesheet" href="css/style.css" />
 <link rel="stylesheet" href="css/bootstrap.min.css" />	
 <script type="text/javascript" src="scripts/canvas-to-blob.js"></script>
@@ -28,7 +28,7 @@
 					</canvas>	
 					<hr />
 					<h3>2.Step - Choose some of models</h3>
-					<a class="btn btn-danger" id="turnModel1">Model One</a>
+					<a class="btn btn-danger" id="turnModel1">Model One(Text on Top)</a>
 					<div id="modelone">
 						Your message:<input type="text" name="modelOneInput"  value="Enter Your text here" />
 						Text Size: <input type="number" name="textSize" value="50" />
@@ -38,6 +38,10 @@
 					<hr />
 					<p>
 						<a class="btn btn-primary clearText">Clear</a> 
+						<select name="chooseExtension">
+							<option value=".jpg">.jpg</option>
+							<option value=".png">.png</option>
+						</select>	
 						<a class="btn btn-success saveWatermarkedImage">Save Watermarked Image</a>
 					</p>	
 				</div>	

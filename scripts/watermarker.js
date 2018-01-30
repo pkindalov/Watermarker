@@ -106,7 +106,7 @@ $(document).ready(function(){
        var fr = new FileReader();
 
        fr.onload = function(ev2) {
-           console.dir(ev2);
+           //console.dir(ev2);
            //$('.editPic').attr('src', ev2.target.result);
            imageObj.src= ev2.target.result;
        };
@@ -183,9 +183,24 @@ $(document).ready(function(){
 	
 	
 	$('.saveWatermarkedImage').click(function(){
-		canvas.toBlob(function(blob) {
-      	saveAs(blob, "YourWatermarkedImage.png");
-    });
+		
+		let extension = $('select[name="chooseExtension"]').val();
+		let fileToDownload = "YourWatermarkedImage" + extension;
+		
+		switch(extension){
+			case '.jpg':
+				let dt = canvas.toDataURL('image/jpeg');
+   			    this.href = dt;
+				break;
+			case '.png':
+				canvas.toBlob(function(blob) {
+      			saveAs(blob, fileToDownload);
+    			});
+				break;
+		}		
+		
+		
+		
 	});
 	
 	

@@ -7,7 +7,8 @@ var CanvasText = new CanvasText;
 
 function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
- let fontSize = size + "px verdana";
+ let fontSize = size + "px Verdana";
+	context.globalAlpha = 0.5;	
 	
   let canvas = document.getElementById('processPicture');
   //serch in receiv string from editor for html tags
@@ -46,7 +47,6 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
     if(doYouWrite){
 	  context.font = fontSize;	
-	  context.globalAlpha = 0.5;	
 	  context.fillStyle	 = color;
       context.fillText(line, x, y);
     }
@@ -103,6 +103,7 @@ $(document).ready(function(){
 	
 	
 	$('#fileToUpload').on('change', function(ev) {
+		  
        var f = ev.target.files[0];
        var fr = new FileReader();
 
@@ -114,6 +115,8 @@ $(document).ready(function(){
        };
 
        fr.readAsDataURL(f);
+		
+		
    });
 	
 	
@@ -121,20 +124,20 @@ $(document).ready(function(){
 	
 	$('#turnModel1').click(function(){
 		
+		
 		$('#modelone').toggle("slow");
 		$('#modelone').show();
 		
 		
-		clearDrawing();
 		
 		if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
-		alert(userPicture)
+		
 		
 		imageObj.onload = function(){
 		context.drawImage(imageObj, 0, 0);
 		wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
 			
-			
+			clearDrawing();
 		
 	}
 		

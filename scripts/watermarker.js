@@ -64,12 +64,13 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
 $(document).ready(function(){
 	
+	$('#modelone').hide();
 	$('.browseImg').prepend(browseInputButton);
 
 	let canvas = document.getElementById("processPicture");
 	let context = canvas.getContext('2d');
 	let maxWidth = 500;
-    let lineHeight = 20;
+    let lineHeight = 50;
 	let exampleText = "Your text here";
 	let x= 490;
 	let y = 450;
@@ -89,7 +90,7 @@ $(document).ready(function(){
 	
 	imageObj.onload = function(){
 		context.drawImage(imageObj, 0, 0);
-		wrapText(context, exampleText, 40, 40, maxWidth, lineHeight, 'white', 50);
+		//wrapText(context, exampleText, 40, 40, maxWidth, lineHeight, 'white', 50);
 		
 	}	
 	
@@ -115,10 +116,74 @@ $(document).ready(function(){
 	
 	
 	
+	$('#turnModel1').click(function(){
+		
+		$('#modelone').show();
+		
+		clearDrawing();
+		
+		imageObj.onload = function(){
+		context.drawImage(imageObj, 0, 0);
+		wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
+			
+			
+		
+	}
+		
+	
+	imageObj.src = examplePicture;
+		
+	});
+	
+	
+	$('input[name="modelOneInput"]').on('keyup', function() {
+		
+		
+		let text = $('input[name="modelOneInput"]').val();
+		let textSize = $('input[name="textSize"]').val();
+		let textColor = $('input[name="textColor"]').val();
+		
+		
+		clearDrawing();
+		wrapText(context, text, 15, 50, maxWidth, lineHeight, textColor, textSize);
+		
+	});
+	
+	$('input[name="textSize"]').on('keyup', function() {
+		let text = $('input[name="modelOneInput"]').val();
+		let textSize = $('input[name="textSize"]').val();
+		let textColor = $('input[name="textColor"]').val();
+		
+		clearDrawing();
+		wrapText(context, text, 15, 50, maxWidth, lineHeight, textColor, textSize);
+		
+	});
+	
+	$('input[name="textColor"]').on('keyup', function() {
+		let text = $('input[name="modelOneInput"]').val();
+		let textSize = $('input[name="textSize"]').val();
+		let textColor = $('input[name="textColor"]').val();
+		
+		clearDrawing();
+		wrapText(context, text, 15, 50, maxWidth, lineHeight, textColor, textSize);
+		
+	});
+	
+	
+	
+	
+	
+	
 	$('.clearText').click(function(){
 		clearDrawing();
 	});
 	
+	
+	$('.saveWatermarkedImage').click(function(){
+		canvas.toBlob(function(blob) {
+      	saveAs(blob, "YourWatermarkedImage.png");
+    });
+	});
 	
 	
 	

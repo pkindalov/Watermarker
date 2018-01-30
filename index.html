@@ -2,11 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Watermarker</title>
-<link rel="stylesheet" href="style.css" />
+<title>Watermarker</title>	
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />	
+<script type="text/javascript" src="scripts/canvas-to-blob.js"></script>
+<script type="text/javascript" src="scripts/Blob.js"></script>
+<script type="text/javascript" src="scripts/FileSaver.js"></script>
+<script type="text/javascript" src="scripts/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="scripts/CanvasText-0.4.1.js"></script>	
+<script type="text/javascript" src="scripts/watermarker.js"></script>	
 
 </head>
 <body>
-<p>content</p>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-8">
+				<div class="stepOne">
+					<h3>1.Step - Choose your picture</h3>
+					<div class="browseImg"></div>
+				</div>	
+				
+				<div class="stepTwo">
+					<canvas id="processPicture" width="500px" height="500px">
+					</canvas>	
+				</div>	
+					
+			</div>	
+		</div>	
+	</div>		
+	
+	
 </body>
 </html>

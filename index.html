@@ -17,7 +17,7 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-12 col-md-8">
+			<div class="col-xs-12 col-md-10">
 				<div class="stepOne">
 					<h3>1.Step - Choose your picture</h3>
 					<div class="browseImg"></div>
@@ -26,8 +26,19 @@
 				<div class="stepTwo">
 					<canvas id="processPicture" width="500px" height="500px">
 					</canvas>	
+					<hr />
+					<h3>2.Step - Choose some of models</h3>
+					<a class="btn btn-danger" id="turnModel1">Model One</a>
+					<div id="modelone">
+						Your message:<input type="text" name="modelOneInput"  value="Enter Your text here" />
+						Text Size: <input type="number" name="textSize" value="50" />
+						Text Color: <input type="text" name="textColor" value="white" />
+					</div>	
+					
+					<hr />
 					<p>
 						<a class="btn btn-primary clearText">Clear</a> 
+						<a class="btn btn-success saveWatermarkedImage">Save Watermarked Image</a>
 					</p>	
 				</div>	
 					

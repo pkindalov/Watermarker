@@ -90,6 +90,8 @@ $(document).ready(function(){
 	
 	let imageObj = new Image();
 	
+	
+	
 	imageObj.onload = function(){
 		context.drawImage(imageObj, 0, 0);
 		//wrapText(context, exampleText, 40, 40, maxWidth, lineHeight, 'white', 50);
@@ -97,7 +99,7 @@ $(document).ready(function(){
 	}	
 	
 	imageObj.src = examplePicture;
-	
+	imageObj.crossOrigin = "Anonymous";
 	
 	
 	
@@ -147,40 +149,61 @@ $(document).ready(function(){
 	});
 	
 	
+	//model one events
 	$('input[name="modelOneInput"]').on('keyup', function() {
-		
-		
-		let text = $('input[name="modelOneInput"]').val();
-		let textSize = $('input[name="textSize"]').val();
-		let textColor = $('input[name="textColor"]').val();
-		
-		
-		clearDrawing();
-		wrapText(context, text, 15, 50, maxWidth, lineHeight, textColor, textSize);
-		
+			handler();	
+	});
+	
+	$('input[name="modelOneInput"]').on('onmouseout', function() {
+			handler();	
 	});
 	
 	$('input[name="textSize"]').on('keyup', function() {
-		let text = $('input[name="modelOneInput"]').val();
-		let textSize = $('input[name="textSize"]').val();
-		let textColor = $('input[name="textColor"]').val();
+		handler();	
 		
-		clearDrawing();
-		wrapText(context, text, 15, 50, maxWidth, lineHeight, textColor, textSize);
+	});
+	
+	$('input[name="textSize"]').on('onmouseout', function() {
+		handler();	
 		
 	});
 	
 	$('input[name="textColor"]').on('keyup', function() {
-		let text = $('input[name="modelOneInput"]').val();
-		let textSize = $('input[name="textSize"]').val();
-		let textColor = $('input[name="textColor"]').val();
-		
-		clearDrawing();
-		wrapText(context, text, 15, 50, maxWidth, lineHeight, textColor, textSize);
-		
+		handler();	
+	});
+	
+	$('input[name="textColor"]').on('onmouseout', function() {
+		handler();	
 	});
 	
 	
+	
+	//model two event handlers
+	$('input[name="modelTwoInput"]').on('keyup', function() {
+			handlerModelTwo();	
+	});
+	
+	$('input[name="modelTwoInput"]').on('onmouseout', function() {
+			handlerModelTwo();	
+	});
+	
+	$('input[name="textSizeModelTwo"]').on('keyup', function() {
+		handlerModelTwo();	
+		
+	});
+	
+	$('input[name="textSizeModelTwo"]').on('onmouseout', function() {
+		handlerModelTwo();	
+		
+	});
+	
+	$('input[name="textColorModelTwo"]').on('keyup', function() {
+		handlerModelTwo();	
+	});
+	
+	$('input[name="textColorModelTwo"]').on('onmouseout', function() {
+		handlerModelTwo();	
+	});
 	
 	
 	
@@ -199,6 +222,12 @@ $(document).ready(function(){
 			case '.jpg':
 				let dt = canvas.toDataURL('image/jpeg');
    			    this.href = dt;
+   			    
+   			    var iframe = "<iframe crossorigin='anonymous' width='500px' height='500px' src='" + this.href + "'></iframe>"
+				var x = window.open();
+				x.document.open();
+				x.document.write(iframe);
+				x.document.close();	
 				break;
 			case '.png':
 				canvas.toBlob(function(blob) {
@@ -232,6 +261,29 @@ $(document).ready(function(){
      context.drawImage(imageObj, 0, 0, 500, 500);
      context.globalCompositeOperation = "source-atop";
    }
+	
+	
+	let handler = function(e){
+	let text = $('input[name="modelOneInput"]').val();
+		let textSize = $('input[name="textSize"]').val();
+		let textColor = $('input[name="textColor"]').val();
+		
+		
+		clearDrawing();
+		wrapText(context, text, 15, 50, maxWidth, lineHeight, textColor, textSize);
+}	
+
+
+let handlerModelTwo = function(e){
+	let text = $('input[name="modelTwoInput"]').val();
+		let textSize = $('input[name="textSizeModelTwo"]').val();
+		let textColor = $('input[name="textColorModelTwo"]').val();
+		
+		
+		clearDrawing();
+		wrapText(context, text, 15, 250, maxWidth, lineHeight, textColor, textSize);
+}		
+	
 	
 	
 	

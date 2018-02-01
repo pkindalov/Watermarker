@@ -15,21 +15,21 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
 
   //this is varible control defauil context.filltext If variable remain true then default writter write on canvas image
-  let doYouWrite = true;
+  var doYouWrite = true;
 
   text = text.replace('&nbsp', '');
 
 
   //document.write(bold);
-  let words = text.split(' ');
-  let line = '';
+  var words = text.split(' ');
+  var line = '';
 
 
 
-  for (let n = 0; n < words.length; n++) {
-    let testLine = ' ' + line + words[n] + ' ';
-    let metrics = context.measureText(testLine);
-    let testWidth = metrics.width;
+  for (var n = 0; n < words.length; n++) {
+    var testLine = ' ' + line + words[n] + ' ';
+    var metrics = context.measureText(testLine);
+    var testWidth = metrics.width;
     if (testWidth > maxWidth && n > 0) {
 
 
@@ -56,35 +56,6 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 }
 
 
-
-(function( $ ){
-    $.fn.modelsHandler = function(element) {
-
-        $(element).toggle("slow");
-        $(element).show();
-
-
-
-        if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
-
-
-        imageObj.onload = function(){
-            context.drawImage(imageObj, 0, 0);
-            wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
-
-            clearDrawing();
-
-        };
-
-
-        imageObj.src = userPicture;
-
-
-
-        // alert('hello world');
-        return this;
-    };
-})( jQuery );
 
 
 
@@ -126,7 +97,7 @@ $(document).ready(function(){
 		context.drawImage(imageObj, 0, 0);
 		//wrapText(context, exampleText, 40, 40, maxWidth, lineHeight, 'white', 50);
 		
-	};
+	}	
 	
 	imageObj.src = examplePicture;
 	imageObj.crossOrigin = "Anonymous";
@@ -136,8 +107,8 @@ $(document).ready(function(){
 	
 	$('#fileToUpload').on('change', function(ev) {
 		  
-       let f = ev.target.files[0];
-       let fr = new FileReader();
+       var f = ev.target.files[0];
+       var fr = new FileReader();
 
        fr.onload = function(ev2) {
            //console.dir(ev2);
@@ -150,34 +121,32 @@ $(document).ready(function(){
 		
 		
    });
-
-
-
-
+	
+	
+	
+	
 	$('#turnModel1').click(function(){
-
-		$('#turnModel1').modelsHandler('#modelone');
 		
 		//modelsHandler('#modelone', userPicture, imageObj, context);
-
-	// 	$('#modelone').toggle("slow");
-	// 	$('#modelone').show();
-    //
-    //
-    //
-	// 	if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
-    //
-    //
-	// 	imageObj.onload = function(){
-	// 	context.drawImage(imageObj, 0, 0);
-	// 	wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
-    //
-	// 		clearDrawing();
-    //
-	// };
-    //
-    //
-	// imageObj.src = userPicture;
+		
+		$('#modelone').toggle("slow");
+		$('#modelone').show();
+		
+		
+		
+		if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
+		
+		
+		imageObj.onload = function(){
+		context.drawImage(imageObj, 0, 0);
+		wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
+			
+			clearDrawing();
+		
+	}
+		
+	
+	imageObj.src = userPicture;
 		
 	});
 	
@@ -186,26 +155,25 @@ $(document).ready(function(){
 	$('#turnModel2').click(function(){
 		
 		//modelsHandler('#modelTwo', userPicture, imageObj, context);
-        $('#turnModel2').modelsHandler('#modelTwo');
 		
-	// 	$('#modelTwo').toggle("slow");
-	// 	$('#modelTwo').show();
-	//
-	//
-	//
-	// 	if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
-	//
-	//
-	// 	imageObj.onload = function(){
-	// 	context.drawImage(imageObj, 0, 0);
-	// 	wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
-	//
-	// 		clearDrawing();
-	//
-	// };
-	//
-	//
-	// imageObj.src = userPicture;
+		$('#modelTwo').toggle("slow");
+		$('#modelTwo').show();
+		
+		
+		
+		if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
+		
+		
+		imageObj.onload = function(){
+		context.drawImage(imageObj, 0, 0);
+		wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
+			
+			clearDrawing();
+		
+	}
+		
+	
+	imageObj.src = userPicture;
 		
 	});
 	
@@ -333,7 +301,7 @@ $(document).ready(function(){
 		
 		clearDrawing();
 		wrapText(context, text, 15, 50, maxWidth, lineHeight, textColor, textSize);
-};
+}	
 
 
 let handlerModelTwo = function(e){
@@ -344,27 +312,27 @@ let handlerModelTwo = function(e){
 		
 		clearDrawing();
 		wrapText(context, text, 15, 250, maxWidth, lineHeight, textColor, textSize);
-};
+}		
 	
 
 
-// function modelsHandler(element, userPicture, imageObj, context){
-//
-// 	$(element).toggle("slow");
-// 		$(element).show();
-//
-//
-//
-// 		if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
-//
-//
-// 		imageObj.onload = function(){
-// 		context.drawImage(imageObj, 0, 0);
-// 		wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
-//
-// 			clearDrawing();
-//
-// }};
+function modelsHandler(element, userPicture, imageObj, context){
+
+	$(element).toggle("slow");
+		$(element).show();
+		
+		
+		
+		if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
+		
+		
+		imageObj.onload = function(){
+		context.drawImage(imageObj, 0, 0);
+		wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
+			
+			clearDrawing();
+	
+}};	
 
 	
 	

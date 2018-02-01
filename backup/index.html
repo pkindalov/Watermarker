@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Simple Watermarker</title>	
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />	
+<script type="text/javascript" src="scripts/canvas-to-blob.js"></script>
+<script type="text/javascript" src="scripts/Blob.js"></script>
+<script type="text/javascript" src="scripts/FileSaver.js"></script>
+<script type="text/javascript" src="scripts/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="scripts/CanvasText-0.4.1.js"></script>	
+<script type="text/javascript" src="scripts/watermarker.js"></script>	
+
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-10">
+				<div class="stepOne">
+					<h3>1.Step - Choose your picture</h3>
+					<div class="browseImg"></div>
+				</div>	
+				
+				<div class="stepTwo">
+					<canvas id="processPicture" width="500px" height="500px">
+					</canvas>	
+					<hr />
+					<h3>2.Step - Choose some of models</h3>
+					<a class="btn btn-danger" id="turnModel1">Model One(Text on Top)</a>
+					<div id="modelone">
+						Your message:<input type="text" name="modelOneInput"  value="Enter Your Text" />
+						Text Size: <input type="number" name="textSize" value="50" />
+						Text Color: <input type="text" name="textColor" value="white" />
+					</div>	
+					
+					 <a class="btn btn-danger" id="turnModel2">Model Two(Text on Middle)</a>
+					<div id="modelTwo">
+						Your message:<input type="text" name="modelTwoInput"  value="Enter Your Text" />
+						Text Size: <input type="number" name="textSizeModelTwo" value="50" />
+						Text Color: <input type="text" name="textColorModelTwo" value="white" />
+					</div>	
+					
+					<hr />
+					<p>
+						<a class="btn btn-primary clearText">Clear</a> 
+						<select name="chooseExtension">
+							<option value=".jpg">.jpg</option>
+							<option value=".png">.png</option>
+						</select>	
+						<a class="btn btn-success saveWatermarkedImage">Save Watermarked Image</a>
+					</p>	
+				</div>	
+					
+			</div>	
+		</div>	
+	</div>		
+	
+	
+</body>
+</html>

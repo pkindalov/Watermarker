@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59b790ac-7ac9-4508-9d83-0c4a536d5b75" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change beforePath="$PROJECT_DIR$/scripts/canvas-to-blob.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/scripts/canvas2image.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/scripts/watermarker.js" afterPath="$PROJECT_DIR$/scripts/watermarker.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="57" lean-forward="false" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
+            <state relative-caret-position="342">
+              <caret line="19" column="43" lean-forward="false" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -31,18 +29,18 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="18">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="5" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="watermarker.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="watermarker.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/watermarker.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2754">
-              <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+            <state relative-caret-position="396">
+              <caret line="189" column="77" lean-forward="false" selection-start-line="189" selection-start-column="77" selection-end-line="189" selection-end-column="77" />
               <folding />
             </state>
           </provider>
@@ -56,8 +54,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/scripts/watermarker.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/scripts/watermarker.js" />
       </list>
     </option>
   </component>
@@ -73,7 +71,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="65" />
     <option name="y" value="44" />
     <option name="width" value="1367" />
@@ -149,15 +147,15 @@
       <updated>1517443108584</updated>
       <workItem from="1517443113350" duration="42000" />
       <workItem from="1517480122511" duration="67000" />
-      <workItem from="1517480211934" duration="6033000" />
+      <workItem from="1517480211934" duration="13997000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6142000" />
+    <option name="totallyTimeSpent" value="14106000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="46" y="0" width="1397" height="878" extended-state="6" />
+    <frame x="46" y="0" width="1397" height="878" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24946082" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -238,26 +236,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="43" lean-forward="false" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="5" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/watermarker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2754">
-          <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="57" lean-forward="false" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
+        <state relative-caret-position="396">
+          <caret line="189" column="77" lean-forward="false" selection-start-line="189" selection-start-column="77" selection-end-line="189" selection-end-column="77" />
           <folding />
         </state>
       </provider>

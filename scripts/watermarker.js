@@ -58,7 +58,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
 
 (function( $ ){
-    $.fn.modelsHandler = function(element) {
+    $.fn.modelsHandler = function(element, imageObj, context, canvas) {
 
         $(element).toggle("slow");
         $(element).show();
@@ -69,10 +69,11 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
 
         imageObj.onload = function(){
-            context.drawImage(imageObj, 0, 0);
-            wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
+            context.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height,
+										0, 0, canvas.width, canvas.height);
+            //wrapText(context, exampleText, 15, 50, maxWidth, lineHeight, 'white', 50);
 
-            clearDrawing();
+            // clearDrawing();
 
         };
 
@@ -156,7 +157,7 @@ $(document).ready(function(){
 
 	$('#turnModel1').click(function(){
 
-		$('#turnModel1').modelsHandler('#modelone');
+		$('#turnModel1').modelsHandler('#modelone', imageObj, context, canvas);
 		
 		//modelsHandler('#modelone', userPicture, imageObj, context);
 
@@ -186,7 +187,7 @@ $(document).ready(function(){
 	$('#turnModel2').click(function(){
 		
 		//modelsHandler('#modelTwo', userPicture, imageObj, context);
-        $('#turnModel2').modelsHandler('#modelTwo');
+        $('#turnModel2').modelsHandler('#modelTwo', imageObj, context, canvas);
 		
 	// 	$('#modelTwo').toggle("slow");
 	// 	$('#modelTwo').show();

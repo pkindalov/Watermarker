@@ -1,8 +1,8 @@
 
 canvas {
   background-color: black;
-  width: auto;
-  height: auto;
+  width: 500px;
+  height: 500px;
 }
 
 .browseImg{
@@ -13,10 +13,10 @@ canvas {
 }
 
 #fileToUpload{
-  margin-left: 16%;
+    width: 500px;
 }
 
-#turnModel1, #turnModel2{
+#turnModel1, #turnModel2, #turnModel3{
 	margin-top: 3px;
 	margin-bottom: 20px;
 }
@@ -25,5 +25,9 @@ canvas {
 	margin-bottom: 20px;
 }	
 
+
+.clearText, .controlButtons{
+    width: 200px;
+}
 
 

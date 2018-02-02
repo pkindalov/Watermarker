@@ -25,32 +25,74 @@
 				
 				<div class="stepTwo">
 					<canvas id="processPicture" width="500px" height="500px">
-					</canvas>	
+					</canvas>
 					<hr />
-					<h3>2.Step - Choose some of models</h3>
-					<a class="btn btn-danger" id="turnModel1">Model One(Text on Top)</a>
-					<div id="modelone">
-						Your message:<input type="text" name="modelOneInput"  value="Enter Your Text" />
-						Text Size: <input type="number" name="textSize" value="50" />
-						Text Color: <input type="text" name="textColor" value="white" />
-					</div>	
+					<h3>2.Step - Choose font,size,color and positioning of the text on picture. You can try also a prepared patterns.</h3><br />
+					Font:<br />
+					<select class="form-control" style="width: 300px;" name="font">
+						<option value="Andale Mono">Andale Mono</option>
+						<option value="Courier">Courier</option>
+						<option value="Courier New">Courier New</option>
+						<option value="Georgia">Georgia</option>
+						<option value="Impact">Impact</option>
+						<option value="Trebuchet MS">Trebuchet MS</option>
+						<option value="Verdana">Verdana</option>
+						<option value="Calibri">Calibri</option>
+						<option value="Cambria">Cambria</option>
+						<option value="Candara">Candara</option>
+						<option value="Consolas">Consolas</option>
+						<option value="Constantia">Constantia</option>
+						<option value="Corbel">Corbel</option>
+						<option value="Monospace">Monospace</option>
+					</select><br />
+
+					Text Size:<br /> <input class="form-control" style="width: 300px;" type="number" name="textSizeDefault" value="30" /><br /><br />
+					Horizontal:<br /> <input class="form-control" style="width: 300px;" type="number" name="horizontal" value="140" /><br />
+					Vertical:<br /> <input class="form-control" style="width: 300px;" type="number" name="vertical" value="40" /><br /><br />
+					Text Color:<br /> <input class="form-control" style="width: 300px;" type="text" name="colorOftext" value="White" /><br /><br />
+
+					<p>Message:</p>
+					<textarea class="form-control" name="message" rows="5" cols="15">Watermark</textarea>
+
+					<hr />
+					<a class="btn btn-danger controlButtons" id="turnModel1">2 Labels per row</a>
+					<!--<div id="modelone">-->
+						<!--Your message:<input type="text" name="modelOneInput"  value="Enter Your Text" />-->
+						<!--Text Size: <input type="number" name="textSize" value="50" />-->
+						<!--Text Color: <input type="text" name="textColor" value="white" />-->
+						<!--Font:-->
+							<!--<select name="font">-->
+								<!--<option value="Andale Mono">Andale Mono</option>-->
+								<!--<option value="Courier">Courier</option>-->
+								<!--<option value="Courier New">Courier New</option>-->
+								<!--<option value="Georgia">Georgia</option>-->
+							<!--</select>-->
+					<!--</div>	-->
 					
-					 <a class="btn btn-danger" id="turnModel2">Model Two(Text on Middle)</a>
-					<div id="modelTwo">
-						Your message:<input type="text" name="modelTwoInput"  value="Enter Your Text" />
-						Text Size: <input type="number" name="textSizeModelTwo" value="50" />
-						Text Color: <input type="text" name="textColorModelTwo" value="white" />
-					</div>	
-					
+					 <a class="btn btn-danger controlButtons" id="turnModel2">3 labels per row</a>
+					<!--<div id="modelTwo">-->
+						<!--Your message:<input type="text" name="modelTwoInput"  value="Enter Your Text" />-->
+						<!--Text Size: <input type="number" name="textSizeModelTwo" value="50" />-->
+						<!--Text Color: <input type="text" name="textColorModelTwo" value="white" />-->
+					<!--</div>-->
+
+					<a class="btn btn-danger controlButtons" id="turnModel3">Top Left Diagonal</a><br />
+					<a class="btn btn-danger controlButtons" id="turnModel4">Top Right Diagonal</a>
+					<a class="btn btn-danger controlButtons" id="turnModel5">2 Top 1 Middle 2 Bottom</a>
+
+					<a class="btn btn-primary clearText controlButtons">Clear</a>
+					<hr />
+
+					<h3>Final Step - Select an extension for the picture and save it to your computer</h3>
 					<hr />
 					<p>
-						<a class="btn btn-primary clearText">Clear</a> 
-						<select name="chooseExtension">
+
+						<select class="form-control" style="width: 300px;" name="chooseExtension">
 							<option value=".jpg">.jpg</option>
 							<option value=".png">.png</option>
-						</select>	
+						</select><br />
 						<a class="btn btn-success saveWatermarkedImage">Save Watermarked Image</a>
-					</p>	
+					</p><br />
 				</div>	
 					
 			</div>	

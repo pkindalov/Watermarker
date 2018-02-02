@@ -130,6 +130,7 @@ $(document).ready(function(){
 	
 	imageObj.onload = function(){
 		context.drawImage(imageObj, 0, 0);
+        defaultHandler();
 		//wrapText(context, exampleText, 40, 40, maxWidth, lineHeight, 'white', 50);
 		
 	};

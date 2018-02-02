@@ -1,13 +1,18 @@
 let examplePicture = 'images/examplePicture.jpg';
-let browseInputButton = '<input id="fileToUpload" type="file" />';
+let browseInputButton = '<input class="form-control" id="fileToUpload" type="file" />';
 let userPicture;
 
+
+//font to use - Andale Mono, Courier, Courier New, Georgia, Impact, Trebuchet MS, Verdana, Calibri Cambria, Candara, Consolas, Constantia, Corbel, monospace
+
 var CanvasText = new CanvasText;
+var font = "Arial";
+
 
 
 function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
- let fontSize = size + "px Verdana";
+ let fontSize = size + "px " + font;
 	context.globalAlpha = 0.5;	
 	
   let canvas = document.getElementById('processPicture');
@@ -111,7 +116,7 @@ $(document).ready(function(){
 	CanvasText.config({
 		canvas: canvas,
 		context: context,
-		fontFamily: "Verdana",
+		fontFamily: "Andale",
         fontSize: "60px",
         fontWeight: "normal",
         fontColor: "#fff",
@@ -157,8 +162,36 @@ $(document).ready(function(){
 
 	$('#turnModel1').click(function(){
 
-		$('#turnModel1').modelsHandler('#modelone', imageObj, context, canvas);
-		
+		// $('#turnModel1').modelsHandler('#modelone', imageObj, context, canvas);
+
+        let message = $('textarea[name="message"]').val();
+        let color = $('input[name="colorOftext"]').val();
+        let size = $('input[name="textSizeDefault"]').val();
+		let height = 30;
+
+        clearDrawing();
+
+        for(let i = 0; i < 10; i++){
+            wrapText(context, message, 60, height, maxWidth, lineHeight, color, size);
+            wrapText(context, message, 220, height, maxWidth, lineHeight, color, size);
+
+        	height += 50;
+		}
+
+        // wrapText(context, message, 60, 30, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 220, 30, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 60, 80, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 220, 80, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 60, 130, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 220, 130, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 60, 180, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 220, 180, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 60, 230, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 220, 230, maxWidth, lineHeight, color, size);
+
+
+
+
 		//modelsHandler('#modelone', userPicture, imageObj, context);
 
 	// 	$('#modelone').toggle("slow");
@@ -186,8 +219,28 @@ $(document).ready(function(){
 	
 	$('#turnModel2').click(function(){
 		
-		//modelsHandler('#modelTwo', userPicture, imageObj, context);
-        $('#turnModel2').modelsHandler('#modelTwo', imageObj, context, canvas);
+
+        // $('#turnModel2').modelsHandler('#modelTwo', imageObj, context, canvas);
+
+
+
+        let message = $('textarea[name="message"]').val();
+        let color = $('input[name="colorOftext"]').val();
+        let size = $('input[name="textSizeDefault"]').val();
+        let height = 30;
+
+        clearDrawing();
+
+
+
+        for(let i = 0; i < 10; i++){
+            wrapText(context, message, 60, height, maxWidth, lineHeight, color, size);
+            wrapText(context, message, 210, height, maxWidth, lineHeight, color, size);
+            wrapText(context, message, 360, height, maxWidth, lineHeight, color, size);
+
+            height += 50;
+        }
+
 		
 	// 	$('#modelTwo').toggle("slow");
 	// 	$('#modelTwo').show();
@@ -209,6 +262,244 @@ $(document).ready(function(){
 	// imageObj.src = userPicture;
 		
 	});
+
+
+
+    $('#turnModel3').click(function(){
+
+
+        // $('#turnModel2').modelsHandler('#modelTwo', imageObj, context, canvas);
+
+
+        let message = $('textarea[name="message"]').val();
+        let color = $('input[name="colorOftext"]').val();
+        let size = $('input[name="textSizeDefault"]').val();
+        let width = 60;
+		let height = 30;
+
+        clearDrawing();
+
+        for(let i = 0; i < 5; i++){
+            wrapText(context, message, width, height, maxWidth, lineHeight, color, size);
+
+            width += 60;
+            height += 140;
+		}
+
+
+        // wrapText(context, message, 60, 30, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 120, 170, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 180, 310, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 240, 450, maxWidth, lineHeight, color, size);
+
+
+    });
+
+
+
+    $('#turnModel4').click(function(){
+
+
+        // $('#turnModel2').modelsHandler('#modelTwo', imageObj, context, canvas);
+
+
+        let message = $('textarea[name="message"]').val();
+        let color = $('input[name="colorOftext"]').val();
+        let size = $('input[name="textSizeDefault"]').val();
+        let width = 300;
+        let height = 30;
+
+        clearDrawing();
+
+        for(let i = 0; i < 5; i++){
+            wrapText(context, message, width, height, maxWidth, lineHeight, color, size);
+
+            width -= 80;
+            height += 140;
+        }
+
+
+        // wrapText(context, message, 300, 30, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 220, 170, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 140, 310, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 60, 450, maxWidth, lineHeight, color, size);
+        //
+
+
+    });
+
+
+
+    $('#turnModel5').click(function(){
+
+
+        // $('#turnModel2').modelsHandler('#modelTwo', imageObj, context, canvas);
+
+
+        let message = $('textarea[name="message"]').val();
+        let color = $('input[name="colorOftext"]').val();
+        let size = $('input[name="textSizeDefault"]').val();
+        let width = 300;
+        let height = 30;
+
+        clearDrawing();
+
+
+        wrapText(context, message, 30, 30, maxWidth, lineHeight, color, size);
+        wrapText(context, message, 300, 30, maxWidth, lineHeight, color, size);
+        wrapText(context, message, 170, 250, maxWidth, lineHeight, color, size);
+        wrapText(context, message, 30, 450, maxWidth, lineHeight, color, size);
+        wrapText(context, message, 300, 450, maxWidth, lineHeight, color, size);
+
+
+        // for(let i = 0; i < 5; i++){
+        //     wrapText(context, message, width, height, maxWidth, lineHeight, color, size);
+        //
+        //     width -= 80;
+        //     height += 140;
+        // }
+
+
+        // wrapText(context, message, 300, 30, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 220, 170, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 140, 310, maxWidth, lineHeight, color, size);
+        // wrapText(context, message, 60, 450, maxWidth, lineHeight, color, size);
+        //
+
+
+    });
+
+
+
+
+    $('input[name="textSizeDefault"]').on('keyup', function() {
+
+        defaultHandler();
+
+    });
+
+    // $('input[name="textSizeDefault"]').on('mouseout', function() {
+    //
+    //     defaultHandler();
+    //
+    // });
+
+    $('input[name="textSizeDefault"]').on('change', function() {
+
+        defaultHandler();
+
+    });
+
+
+
+    $('select[name="font"]').on('keyup', function() {
+
+        defaultHandler();
+
+    });
+
+    // $('select[name="font"]').on('mouseout', function() {
+    //
+    //     defaultHandler();
+    //
+    // });
+
+    $('select[name="font"]').on('change', function() {
+
+        defaultHandler();
+
+    });
+
+
+
+
+    $('input[name="horizontal"]').on('keyup', function() {
+
+        defaultHandler();
+
+    });
+
+    // $('input[name="horizontal"]').on('mouseout', function() {
+    //
+    //     defaultHandler();
+    //
+    // });
+
+    $('input[name="horizontal"]').on('change', function() {
+
+        defaultHandler();
+
+    });
+
+
+    $('input[name="vertical"]').on('keyup', function() {
+
+        defaultHandler();
+
+    });
+
+    // $('input[name="vertical"]').on('mouseout', function() {
+    //
+    //     defaultHandler();
+    //
+    // });
+
+    $('input[name="vertical"]').on('change', function() {
+
+        defaultHandler();
+
+    });
+
+
+
+
+
+    $('input[name="colorOftext"]').on('keyup', function() {
+
+        defaultHandler();
+
+    });
+
+    // $('input[name="colorOftext"]').on('mouseout', function() {
+    //
+    //     defaultHandler();
+    //
+    // });
+
+    $('input[name="colorOftext"]').on('change', function() {
+
+        defaultHandler();
+
+    });
+
+
+
+
+
+    $('textarea[name="message"]').on('keyup', function() {
+
+        defaultHandler();
+
+    });
+
+    // $('textarea[name="message"]').on('mouseout', function() {
+    //
+    //     defaultHandler();
+    //
+    // });
+
+    $('textarea[name="message"]').on('change', function() {
+
+        defaultHandler();
+
+    });
+
+
+
+
+
+
+
 	
 	
 	
@@ -267,7 +558,13 @@ $(document).ready(function(){
 	$('input[name="textColorModelTwo"]').on('onmouseout', function() {
 		handlerModelTwo();	
 	});
-	
+
+
+
+	$('select[name="font"]').on('change', function () {
+		font = $(this).val();
+
+    });
 	
 	
 	
@@ -341,12 +638,24 @@ let handlerModelTwo = function(e){
 	let text = $('input[name="modelTwoInput"]').val();
 		let textSize = $('input[name="textSizeModelTwo"]').val();
 		let textColor = $('input[name="textColorModelTwo"]').val();
-		
-		
+
+
 		clearDrawing();
 		wrapText(context, text, 15, 250, maxWidth, lineHeight, textColor, textSize);
 };
-	
+
+let defaultHandler = function () {
+
+    let message = $('textarea[name="message"]').val();
+    let horizontal = parseInt($('input[name="horizontal"]').val());
+    let vertical = parseInt($('input[name="vertical"]').val());
+    let color = $('input[name="colorOftext"]').val();
+    let size = $('input[name="textSizeDefault"]').val();
+
+    clearDrawing();
+    wrapText(context, message, horizontal, vertical, maxWidth, lineHeight, color, size);
+
+}
 
 
 // function modelsHandler(element, userPicture, imageObj, context){

@@ -96,9 +96,15 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
 $(document).ready(function(){
 
+    let canvasWidth = 500;
+    let canvasHeight = 500;
+
 	$('.browseImg').prepend(browseInputButton);
 
 	let canvas = document.getElementById("processPicture");
+	canvas.width = canvasWidth;
+	canvas.height = canvasHeight;
+
 	let context = canvas.getContext('2d');
 	let maxWidth = 500;
     let lineHeight = 50;
@@ -120,7 +126,7 @@ $(document).ready(function(){
 	let imageObj = new Image();
 
 	imageObj.onload = function(){
-		context.drawImage(imageObj, 0, 0);
+		context.drawImage(imageObj, canvasWidth, canvasHeight);
         defaultHandler();
 	};
 	
@@ -251,6 +257,26 @@ $(document).ready(function(){
     });
 
 
+    $('select[name="chooseResolution"]').on('change', function () {
+       let newWidth = parseInt($(this).val());
+
+       let resizedCanvas = document.getElementById("processPicture");
+
+       resizedCanvas.width= newWidth;
+       resizedCanvas.height = newWidth;
+
+       clearDrawing();
+
+        imageObj.onload = function(){
+            context.drawImage(imageObj, 0, 0);
+            defaultHandler();
+        };
+
+        if(userPicture == ' ' || userPicture == undefined) userPicture = examplePicture;
+        imageObj.src = userPicture;
+        imageObj.crossOrigin = "Anonymous";
+    });
+
 
 
     $('input[name="textSizeDefault"]').on('keyup', function() {
@@ -354,6 +380,7 @@ $(document).ready(function(){
 	
 	
 	function clearDrawing(){
+	 debugger;
      canvas = document.getElementById('processPicture');
      context = canvas.getContext("2d");
 
@@ -369,7 +396,7 @@ $(document).ready(function(){
      // reset alpha
      context.globalAlpha = 1;
 
-     context.drawImage(imageObj, 0, 0, 500, 500);
+     context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
      context.globalCompositeOperation = "source-atop";
    }
 	

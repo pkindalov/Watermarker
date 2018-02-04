@@ -21,10 +21,18 @@
 				<div class="stepOne">
 					<h3>1.Step - Choose your picture</h3>
 					<div class="browseImg"></div>
+
+					<p>Choose a resolution: </p>
+					<select class="form-control" style="width: 300px;" name="chooseResolution">
+						<option value="500">500px</option>
+						<option value="800">800px</option>
+						<option value="1024">1024px</option>
+					</select><br /><br />
+
 				</div>	
 				
 				<div class="stepTwo">
-					<canvas id="processPicture" width="500px" height="500px">
+					<canvas id="processPicture">
 					</canvas>
 					<hr />
 					<h3>2.Step - Choose font,size,color and positioning of the text on picture. You can try also a prepared patterns.</h3><br />

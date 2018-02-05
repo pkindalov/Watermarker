@@ -1,7 +1,7 @@
 let examplePicture = 'images/examplePicture.jpg';
 let browseInputButton = '<input class="form-control" id="fileToUpload" type="file" />';
 let userPicture;
-
+let watermarkCounter = 0;
 
 var CanvasText = new CanvasText;
 var font = "Arial";
@@ -279,6 +279,120 @@ $(document).ready(function(){
 
 
 
+
+
+
+
+
+    $('a[name="addMoreWatermarks"]').on('click', function () {
+        // let newCanvas = document.getElementById("processPicture");
+        // let newContext = newCanvas.getContext('2d');
+
+
+
+
+
+        let classNameOfTextInput = 'watermarkText' + watermarkCounter;
+       let clasNameOfTextSize = 'watermarkTextSize' + watermarkCounter;
+       let textHeight = 'watermarkHeight' + watermarkCounter;
+       let textWidth = 'watermarkWidth' + watermarkCounter;
+       let textColor = 'watermarkerTextColor' + watermarkCounter;
+
+       let nameOfDrawBtn = 'drawBtn' + watermarkCounter;
+       let contDivName = 'divWatermarkText' + watermarkCounter;
+       let textInput = $(`<input class="form-control" style="width: 300px" type="text" name="${classNameOfTextInput}" />`);
+
+        let textSizeInput = $(`<input class="form-control" style="width: 300px" type="number" name="${clasNameOfTextSize}" value="30" />`);
+
+        let textHeightPos = $(`<input class="form-control" style="width: 300px" type="number" name="${textHeight}" value="200" />`);
+
+        let textWidthPos = $(`<input class="form-control" style="width: 300px" type="number" name="${textWidth}" value="140" />`);
+
+        let colorOfText = $(`<input class="form-control" style="width: 300px" type="text" name="${textColor}" value="White" />`);
+
+
+       let drawButton = $(`<a class="btn btn-primary" name="${nameOfDrawBtn}">Draw</a>`);
+       let divContainer = $(`<div id="${contDivName}">`);
+
+       divContainer.append("Enter text:<br />");
+       divContainer.append(textInput);
+        divContainer.append("Enter text size:<br />");
+       divContainer.append(textSizeInput);
+        divContainer.append("Vertical Position of text:<br />");
+       divContainer.append(textHeightPos);
+        divContainer.append("Horizontal Position of text:<br />");
+        divContainer.append(textWidthPos);
+        divContainer.append("Enter a color for text:<br />");
+        divContainer.append(colorOfText);
+
+
+       divContainer.append(drawButton);
+
+
+       $('#watermarksContainer').append(divContainer);
+
+        // alert($(`input[name="${classNameOfTextInput}"]`).val());
+
+        watermarkCounter++;
+
+
+
+        $(`#${contDivName}`).on('click', `a[name="${nameOfDrawBtn}"]`, function () {
+            let userText = $(`input[name="${classNameOfTextInput}"]`).val();
+            let userTextSize = $(`input[name="${clasNameOfTextSize}"]`).val();
+
+            let textVerticalPos = $(`input[name="${textHeight}"]`).val();
+            let textHorizontalPos = $(`input[name="${textWidth}"]`).val();
+
+            let userTextColor = $(`input[name="${textColor}"]`).val();
+
+
+            wrapText(context, userText, textHorizontalPos, textVerticalPos, maxWidth, lineHeight, userTextColor, userTextSize);
+
+
+            //                         width, height
+
+                // for(let c of newContexts){
+                //     alert(c);
+                    // wrapText(c, userText, textHorizontalPos, textVerticalPos, maxWidth, lineHeight, userTextColor, userTextSize);
+                // }
+
+
+
+                // wrapText(newContexts[watermarkCounter - 1], userText, textHorizontalPos, textVerticalPos, maxWidth, lineHeight, userTextColor, userTextSize);
+
+
+
+            // $(`#${contDivName}`).on('change', `input[name="${clasNameOfTextSize}"]`, function () {
+            //     let newTextSizeValue = $(`input[name="${clasNameOfTextSize}"]`).val();
+            //
+            //     clearDrawing();
+            //
+            //     wrapText(context, userText, textHorizontalPos, textVerticalPos, maxWidth, lineHeight, userTextColor, newTextSizeValue);
+            // });
+
+
+
+            // alert(userText);
+            // alert($(`input[name="${classNameOfTextInput}"]`).val());
+
+        });
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+
+
+
     $('input[name="textSizeDefault"]').on('keyup', function() {
         defaultHandler();
     });
@@ -380,7 +494,7 @@ $(document).ready(function(){
 	
 	
 	function clearDrawing(){
-	 debugger;
+
      canvas = document.getElementById('processPicture');
      context = canvas.getContext("2d");
 
@@ -399,6 +513,27 @@ $(document).ready(function(){
      context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
      context.globalCompositeOperation = "source-atop";
    }
+
+
+    function clearUserDrawing(userContext){
+
+
+        // clear canvas
+        userContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        // clear path
+        userContext.beginPath();
+
+        // use default comp. mode
+        userContext.globalCompositeOperation = "source-over";
+
+        // reset alpha
+        userContext.globalAlpha = 1;
+
+        userContext.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
+        userContext.globalCompositeOperation = "source-atop";
+    }
+
 	
 
 

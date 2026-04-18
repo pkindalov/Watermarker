@@ -7,34 +7,22 @@ var CanvasText = new CanvasText;
 
 function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
- let fontSize = size + "px Verdana";
-	context.globalAlpha = 0.5;	
-	
-  let canvas = document.getElementById('processPicture');
-  //serch in receiv string from editor for html tags
+  let fontSize = size + "px Verdana";
+  context.globalAlpha = 0.5;
+  context.font = fontSize;
+  context.fillStyle = color;
 
+  text = text.replace('&nbsp;', '');
 
-  //this is varible control defauil context.filltext If variable remain true then default writter write on canvas image
-  var doYouWrite = true;
-
-  text = text.replace('&nbsp', '');
-
-
-  //document.write(bold);
   var words = text.split(' ');
   var line = '';
-
-
 
   for (var n = 0; n < words.length; n++) {
     var testLine = ' ' + line + words[n] + ' ';
     var metrics = context.measureText(testLine);
     var testWidth = metrics.width;
     if (testWidth > maxWidth && n > 0) {
-
-
-        context.fillText(line, x, y);
-
+      context.fillText(line, x, y);
       line = words[n] + ' ';
       y += lineHeight;
     } else {
@@ -42,16 +30,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
     }
   }
 
-
-
-
-    if(doYouWrite){
-	  context.font = fontSize;	
-	  context.fillStyle	 = color;
-      context.fillText(line, x, y);
-    }
-
-
+  context.fillText(line, x, y);
 
 }
 
@@ -130,7 +109,6 @@ $(document).ready(function(){
 		//modelsHandler('#modelone', userPicture, imageObj, context);
 		
 		$('#modelone').toggle("slow");
-		$('#modelone').show();
 		
 		
 		
@@ -157,7 +135,6 @@ $(document).ready(function(){
 		//modelsHandler('#modelTwo', userPicture, imageObj, context);
 		
 		$('#modelTwo').toggle("slow");
-		$('#modelTwo').show();
 		
 		
 		

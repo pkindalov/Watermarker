@@ -108,8 +108,8 @@ function initEvents() {
     t.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
       t.classList.add('active');
-      document.getElementById('tab-watermark').style.display = t.dataset.tab === 'watermark' ? '' : 'none';
-      document.getElementById('tab-image').style.display     = t.dataset.tab === 'image'     ? '' : 'none';
+      document.getElementById('tab-watermark').classList.toggle('visible', t.dataset.tab === 'watermark');
+      document.getElementById('tab-image').classList.toggle('visible', t.dataset.tab === 'image');
     });
   });
 
@@ -126,7 +126,7 @@ function initEvents() {
     if (!b) return;
     segSelect('fmtSeg', b.dataset.fmt, 'fmt');
     state.exportFormat = b.dataset.fmt;
-    document.getElementById('qualityRow').style.display     = b.dataset.fmt === 'png' ? 'none' : '';
+    document.getElementById('qualityRow').classList.toggle('visible', b.dataset.fmt !== 'png');
     document.querySelector('#formatBtn span').textContent   = b.dataset.fmt.toUpperCase();
     document.getElementById('infoFmt').textContent          = b.dataset.fmt.toUpperCase();
   });

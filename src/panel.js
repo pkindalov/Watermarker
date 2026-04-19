@@ -9,12 +9,12 @@ export const PropPanel = {
   render() {
     const wm = state.watermarks.find(w => w.id === state.selectedId);
     if (!wm) {
-      _body.style.display  = 'none';
-      _empty.style.display = 'block';
+      _body.classList.remove('visible');
+      _empty.classList.add('visible');
       return;
     }
-    _body.style.display  = 'block';
-    _empty.style.display = 'none';
+    _body.classList.add('visible');
+    _empty.classList.remove('visible');
     this._build(wm);
     this._wire(wm);
   },
@@ -54,7 +54,7 @@ export const PropPanel = {
         <div class="row">
           <label class="sub">
             Letter spacing
-            <span id="lbl_letter" style="float:right; font-family:var(--mono); color:var(--ink);">${wm.letterSpacing}px</span>
+            <span id="lbl_letter" class="range-val">${wm.letterSpacing}px</span>
           </label>
           <input type="range" min="-2" max="20" step="0.5" value="${wm.letterSpacing}" id="p_letter">
         </div>
@@ -65,19 +65,19 @@ export const PropPanel = {
         <div class="row">
           <div class="color-pick">
             <div class="color-swatch">
-              <div class="fill" id="p_swatch_fill" style="background:${wm.color}"></div>
-              <input type="color" id="p_color_picker" value="${toHex(wm.color)}" style="position:absolute; inset:0; opacity:0; cursor:pointer;">
+              <div class="fill" id="p_swatch_fill" style="--fill-color:${wm.color}"></div>
+              <input type="color" id="p_color_picker" value="${toHex(wm.color)}" class="color-picker-input">
             </div>
             <input class="input mono" id="p_color" value="${wm.color}">
           </div>
           <div class="swatches" id="p_swatches">
-            ${SWATCH_COLORS.map(s => `<div class="sw${wm.color === s ? ' active' : ''}" style="background:${s}" data-c="${s}"></div>`).join('')}
+            ${SWATCH_COLORS.map(s => `<div class="sw${wm.color === s ? ' active' : ''}" style="--sw-color:${s}" data-c="${s}"></div>`).join('')}
           </div>
         </div>
         <div class="row">
           <label class="sub">
             Opacity
-            <span id="lbl_opacity" style="float:right; font-family:var(--mono); color:var(--ink);">${Math.round(wm.opacity * 100)}%</span>
+            <span id="lbl_opacity" class="range-val">${Math.round(wm.opacity * 100)}%</span>
           </label>
           <input type="range" min="0" max="100" value="${Math.round(wm.opacity * 100)}" id="p_opacity">
         </div>
@@ -104,19 +104,19 @@ export const PropPanel = {
         <div class="row">
           <label class="sub">
             Rotation
-            <span id="lbl_rotation" style="float:right; font-family:var(--mono); color:var(--ink);">${wm.rotation}°</span>
+            <span id="lbl_rotation" class="range-val">${wm.rotation}°</span>
           </label>
           <input type="range" min="-180" max="180" value="${wm.rotation}" id="p_rotation">
         </div>
         <div class="row">
           <label class="sub">Quick align</label>
-          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px;">
+          <div class="align-grid">
             ${[
               ['↖',0.1,0.1],['↑',0.5,0.1],['↗',0.9,0.1],
               ['←',0.1,0.5],['⊙',0.5,0.5],['→',0.9,0.5],
               ['↙',0.1,0.9],['↓',0.5,0.9],['↘',0.9,0.9],
             ].map(([sym, x, y]) =>
-              `<button class="btn" style="padding:6px 0; justify-content:center; font-family:var(--mono);" data-ax="${x}" data-ay="${y}">${sym}</button>`
+              `<button class="btn align-btn" data-ax="${x}" data-ay="${y}">${sym}</button>`
             ).join('')}
           </div>
         </div>
@@ -165,7 +165,7 @@ export const PropPanel = {
 
     const syncColor = color => {
       wm.color = color;
-      $('#p_swatch_fill').style.background = color;
+      $('#p_swatch_fill').style.setProperty('--fill-color', color);
       bus.emit('render');
     };
     $('#p_color').addEventListener('input', e => syncColor(e.target.value));

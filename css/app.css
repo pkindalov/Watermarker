@@ -273,3 +273,52 @@ input[type="range"]::-moz-range-thumb {
 ::-webkit-scrollbar-thumb:hover { background: #ccc5b3; }
 
 .i { width: 14px; height: 14px; stroke-width: 1.75; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── Topbar ──────────────────────────────────────────────────────── */
+.topbar-left { display: flex; align-items: center; gap: 20px; }
+.topbar-divider { width: 1px; height: 20px; background: var(--hair); margin: 0 6px; }
+.file-meta { display: flex; align-items: center; gap: 4px; color: var(--muted); font-size: 12px; }
+.file-meta span { font-family: var(--mono); }
+#fileLabel { color: var(--ink-2); }
+#formatBtn { padding: 7px 10px; }
+.fmt-label { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+#formatBtn .i { width: 10px; height: 10px; }
+
+/* ── Left panel ──────────────────────────────────────────────────── */
+.rail-section.borderless { padding-bottom: 0; border-bottom: none; }
+
+/* ── Stage toolbar ───────────────────────────────────────────────── */
+.stage-divider { width: 1px; height: 18px; background: #2b2823; margin: 0 4px; }
+
+/* ── Tab panels — JS toggles .visible ───────────────────────────── */
+.tab-panel { display: none; }
+.tab-panel.visible { display: block; }
+
+/* ── Prop panel — JS toggles .visible ───────────────────────────── */
+#propBody { display: none; }
+#propBody.visible { display: block; }
+#emptyState { display: none; }
+#emptyState.visible { display: block; }
+.empty-state .i { width: 28px; height: 28px; color: var(--hair); margin-bottom: 4px; stroke-width: 1.2; }
+
+/* ── Right panel / image tab ─────────────────────────────────────── */
+.btn.full { justify-content: center; }
+#qualityRow { display: none; }
+#qualityRow.visible { display: grid; }
+.range-val { float: right; font-family: var(--mono); color: var(--ink); }
+.info-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 12px; color: var(--ink-2); }
+.info-grid .lbl { color: var(--muted); }
+.info-grid .val { font-family: var(--mono); }
+
+/* ── Tweaks panel ────────────────────────────────────────────────── */
+.tweaks .row.spaced { margin-bottom: 10px; }
+
+/* ── Misc ────────────────────────────────────────────────────────── */
+#fileInput { display: none; }
+.sw { background: var(--sw-color); }
+
+/* ── Dynamic panel components ────────────────────────────────────── */
+.color-swatch .fill { background: var(--fill-color); }
+.color-picker-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.align-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.btn.align-btn { padding: 6px 0; justify-content: center; font-family: var(--mono); }

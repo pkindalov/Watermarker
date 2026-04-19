@@ -21,9 +21,16 @@ canvas {
 	margin-bottom: 20px;
 }
 
-#modelone, #modelTwo{
+#modelone,
+#modelTwo {
+	display: none;
 	margin-bottom: 20px;
-}	
+}
+
+#modelone.is-visible,
+#modelTwo.is-visible {
+	display: block;
+}
 
 
 

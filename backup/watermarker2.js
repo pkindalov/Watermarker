@@ -60,8 +60,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 (function( $ ){
     $.fn.modelsHandler = function(element) {
 
-        $(element).toggle("slow");
-        $(element).show();
+        $(element).toggleClass('is-visible');
 
 
 
@@ -95,8 +94,6 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
 $(document).ready(function(){
 	
-	$('#modelone').hide();
-	$('#modelTwo').hide();
 	$('.browseImg').prepend(browseInputButton);
 
 	let canvas = document.getElementById("processPicture");

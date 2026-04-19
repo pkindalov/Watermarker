@@ -45,8 +45,6 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, color, size) {
 
 $(document).ready(function(){
 	
-	$('#modelone').hide();
-	$('#modelTwo').hide();
 	$('.browseImg').prepend(browseInputButton);
 
 	let canvas = document.getElementById("processPicture");
@@ -108,7 +106,7 @@ $(document).ready(function(){
 		
 		//modelsHandler('#modelone', userPicture, imageObj, context);
 		
-		$('#modelone').toggle("slow");
+		$('#modelone').toggleClass('is-visible');
 		
 		
 		
@@ -134,7 +132,7 @@ $(document).ready(function(){
 		
 		//modelsHandler('#modelTwo', userPicture, imageObj, context);
 		
-		$('#modelTwo').toggle("slow");
+		$('#modelTwo').toggleClass('is-visible');
 		
 		
 		

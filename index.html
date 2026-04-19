@@ -2,115 +2,266 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Simple Watermarker</title>	
-<link rel="stylesheet" href="css/style.css" />
-<link rel="stylesheet" href="css/bootstrap.min.css" />	
-<!--<script type="text/javascript" src="scripts/canvas-to-blob.js"></script>-->
-<script type="text/javascript" src="scripts/Blob.js"></script>
-<script type="text/javascript" src="scripts/FileSaver.js"></script>
-<script type="text/javascript" src="scripts/jquery-3.1.0.min.js"></script>
-<script type="text/javascript" src="scripts/CanvasText-0.4.1.js"></script>	
-<script type="text/javascript" src="scripts/watermarker.js"></script>	
-
+<title>Watermarker — Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-12 col-md-10">
-				<div class="stepOne">
-					<h3>1.Step - Choose your picture</h3>
-					<div class="browseImg"></div>
+<div class="app">
 
-					<p>Choose a resolution: </p>
-					<select class="form-control" style="width: 300px;" name="chooseResolution">
-						<option value="500">500px</option>
-						<option value="800">800px</option>
-						<option value="1024">1024px</option>
-					</select><br /><br />
+  <header class="topbar">
+    <div style="display:flex; align-items:center; gap:20px;">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div>Watermarker</div>
+        <div class="brand-sub">Editor</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:4px; color:var(--muted); font-size:12px;">
+        <span id="fileLabel" style="font-family:var(--mono); color:var(--ink-2);">example.jpg</span>
+        <span>·</span>
+        <span id="dimLabel" style="font-family:var(--mono);">— × —</span>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn ghost" id="uploadBtn">
+        <svg class="i" viewBox="0 0 24 24"><path d="M12 16V4m0 0l-4 4m4-4l4 4"/><path d="M20 16v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2"/></svg>
+        Upload
+      </button>
+      <button class="btn ghost" id="resetBtn">
+        <svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 019-9 9 9 0 016.7 3"/><path d="M21 3v5h-5"/></svg>
+        Reset
+      </button>
+      <div style="width:1px; height:20px; background:var(--hair); margin:0 6px;"></div>
+      <button class="btn" id="formatBtn" style="padding:7px 10px;">
+        <span style="font-family:var(--mono); font-size:11px; color:var(--muted);">PNG</span>
+        <svg class="i" viewBox="0 0 24 24" style="width:10px; height:10px;"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <button class="btn accent" id="exportBtn">
+        <svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+        Export
+      </button>
+    </div>
+  </header>
 
-				</div>	
-				
-				<div class="stepTwo">
-					<canvas id="processPicture">
-					</canvas>
-					<hr />
-					<h3>2.Step - Choose font,size,color and positioning of the text on picture. You can try also a prepared patterns.</h3><br />
-					Font:<br />
-					<select class="form-control" style="width: 300px;" name="font">
-						<option value="Arial">Arial</option>
-						<option value="Andale Mono">Andale Mono</option>
-						<option value="Courier">Courier</option>
-						<option value="Courier New">Courier New</option>
-						<option value="Georgia">Georgia</option>
-						<option value="Impact">Impact</option>
-						<option value="Trebuchet MS">Trebuchet MS</option>
-						<option value="Verdana">Verdana</option>
-						<option value="Calibri">Calibri</option>
-						<option value="Cambria">Cambria</option>
-						<option value="Candara">Candara</option>
-						<option value="Consolas">Consolas</option>
-						<option value="Constantia">Constantia</option>
-						<option value="Corbel">Corbel</option>
-						<option value="Monospace">Monospace</option>
-					</select><br />
+  <aside class="left">
+    <div class="rail-section" style="padding-bottom:0; border-bottom:none;">
+      <div class="rail-h">
+        <span>Watermarks</span>
+        <button id="addWatermarkTop" title="Add watermark">+</button>
+      </div>
+    </div>
+    <div class="layer-list" id="layerList"></div>
+    <button class="add-layer" id="addWatermarkBtn">
+      <svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      Add watermark
+    </button>
+    <div class="rail-section">
+      <div class="rail-h"><span>Preset patterns</span></div>
+      <div class="preset-grid">
+        <button class="preset" data-preset="grid2">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g fill="oklch(0.72 0.14 65)" font-family="monospace" font-size="7">
+              <text x="7" y="15">WM</text><text x="33" y="15">WM</text><text x="7" y="27">WM</text>
+              <text x="33" y="27">WM</text><text x="7" y="39">WM</text><text x="33" y="39">WM</text>
+              <text x="7" y="51">WM</text><text x="33" y="51">WM</text>
+            </g></svg>
+          <span class="preset-label">2 per row</span>
+        </button>
+        <button class="preset" data-preset="grid3">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g fill="oklch(0.72 0.14 65)" font-family="monospace" font-size="6">
+              <text x="7" y="15">WM</text><text x="24" y="15">WM</text><text x="41" y="15">WM</text>
+              <text x="7" y="27">WM</text><text x="24" y="27">WM</text><text x="41" y="27">WM</text>
+              <text x="7" y="39">WM</text><text x="24" y="39">WM</text><text x="41" y="39">WM</text>
+              <text x="7" y="51">WM</text><text x="24" y="51">WM</text><text x="41" y="51">WM</text>
+            </g></svg>
+          <span class="preset-label">3 per row</span>
+        </button>
+        <button class="preset" data-preset="diagTL">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g fill="oklch(0.72 0.14 65)" font-family="monospace" font-size="6.5">
+              <text x="8" y="14">WM</text><text x="16" y="26">WM</text><text x="24" y="38">WM</text><text x="32" y="50">WM</text>
+            </g></svg>
+          <span class="preset-label">Diag ↘</span>
+        </button>
+        <button class="preset" data-preset="diagTR">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g fill="oklch(0.72 0.14 65)" font-family="monospace" font-size="6.5">
+              <text x="40" y="14">WM</text><text x="32" y="26">WM</text><text x="24" y="38">WM</text><text x="16" y="50">WM</text>
+            </g></svg>
+          <span class="preset-label">Diag ↙</span>
+        </button>
+        <button class="preset" data-preset="corners">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g fill="oklch(0.72 0.14 65)" font-family="monospace" font-size="6.5">
+              <text x="8" y="15">WM</text><text x="38" y="15">WM</text><text x="22" y="33">WM</text>
+              <text x="8" y="52">WM</text><text x="38" y="52">WM</text>
+            </g></svg>
+          <span class="preset-label">5-dot</span>
+        </button>
+        <button class="preset" data-preset="center">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g fill="oklch(0.72 0.14 65)" font-family="monospace" font-size="10" font-weight="500">
+              <text x="14" y="34">WMARK</text>
+            </g></svg>
+          <span class="preset-label">Center</span>
+        </button>
+        <button class="preset" data-preset="edgeBottom">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g fill="oklch(0.72 0.14 65)" font-family="monospace" font-size="6">
+              <text x="6" y="52">© YOUR NAME 2026</text>
+            </g></svg>
+          <span class="preset-label">Footer</span>
+        </button>
+        <button class="preset" data-preset="tileDiag">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g fill="oklch(0.72 0.14 65)" font-family="monospace" font-size="5" transform="rotate(-30 30 30)">
+              <text x="-10" y="10">WM   WM   WM</text><text x="-10" y="20">WM   WM   WM</text>
+              <text x="-10" y="30">WM   WM   WM</text><text x="-10" y="40">WM   WM   WM</text>
+              <text x="-10" y="50">WM   WM   WM</text><text x="-10" y="60">WM   WM   WM</text>
+              <text x="-10" y="70">WM   WM   WM</text>
+            </g></svg>
+          <span class="preset-label">Tile 30°</span>
+        </button>
+        <button class="preset" data-preset="clear">
+          <svg viewBox="0 0 60 60"><rect x="4" y="4" width="52" height="52" rx="3" fill="#2a2824"/>
+            <g stroke="#5a564f" stroke-width="1" fill="none">
+              <line x1="20" y1="20" x2="40" y2="40"/><line x1="40" y1="20" x2="20" y2="40"/>
+            </g></svg>
+          <span class="preset-label">Clear</span>
+        </button>
+      </div>
+    </div>
+  </aside>
 
-					Text Size:<br /> <input class="form-control" style="width: 300px;" type="number" name="textSizeDefault" value="30" /><br /><br />
-					Horizontal:<br /> <input class="form-control" style="width: 300px;" type="number" name="horizontal" value="140" /><br />
-					Vertical:<br /> <input class="form-control" style="width: 300px;" type="number" name="vertical" value="40" /><br /><br />
-					Text Color:<br /> <input class="form-control" style="width: 300px;" type="text" name="colorOftext" value="White" /><br /><br />
+  <main class="stage-wrap">
+    <div class="stage-toolbar">
+      <div class="left-tools">
+        <button class="tool-btn active" title="Move (V)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l7 17 2.5-6.5L19 11 3 3z"/></svg>
+        </button>
+        <button class="tool-btn" id="toolAddText" title="Add text (T)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+        </button>
+        <div style="width:1px; height:18px; background:#2b2823; margin:0 4px;"></div>
+        <span class="doc-name" id="stageTitle">example.jpg</span>
+      </div>
+      <div class="right-tools">
+        <button class="tool-btn" id="fitBtn" title="Fit (F)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/></svg>
+        </button>
+        <span class="zoom-chip" id="zoomLabel">100%</span>
+      </div>
+    </div>
+    <div class="stage" id="stage">
+      <div class="canvas-holder" id="canvasHolder">
+        <canvas id="mainCanvas" width="500" height="500"></canvas>
+        <div class="handle-layer" id="handleLayer"></div>
+      </div>
+      <div class="dropzone" id="dropzone">Drop image to open</div>
+    </div>
+  </main>
 
-					<p>Message:</p>
-					<textarea class="form-control" name="message" rows="5" cols="15">Watermark</textarea>
+  <aside class="right">
+    <div class="tab-bar">
+      <div class="tab active" data-tab="watermark">Watermark</div>
+      <div class="tab" data-tab="image">Image</div>
+    </div>
+    <div id="tab-watermark">
+      <div id="propBody"></div>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <svg class="i" viewBox="0 0 24 24" style="width:28px; height:28px; color:var(--hair); margin-bottom:4px; stroke-width:1.2;"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+        <h4>No watermark selected</h4>
+        <p>Select a layer or add a new one.</p>
+      </div>
+    </div>
+    <div id="tab-image" style="display:none;">
+      <div class="prop-group">
+        <h4 class="prop-h">Source image</h4>
+        <div class="row">
+          <button class="btn" id="uploadBtn2" style="justify-content:center;">
+            <svg class="i" viewBox="0 0 24 24"><path d="M12 16V4m0 0l-4 4m4-4l4 4"/><path d="M20 16v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2"/></svg>
+            Choose file…
+          </button>
+        </div>
+        <div class="row">
+          <label class="sub">Resize output</label>
+          <div class="seg" id="resSeg">
+            <button data-res="500">500</button>
+            <button data-res="800" class="active">800</button>
+            <button data-res="1024">1024</button>
+            <button data-res="0">Original</button>
+          </div>
+        </div>
+      </div>
+      <div class="prop-group">
+        <h4 class="prop-h">Export</h4>
+        <div class="row">
+          <label class="sub">Format</label>
+          <div class="seg" id="fmtSeg">
+            <button data-fmt="png" class="active">PNG</button>
+            <button data-fmt="jpg">JPG</button>
+            <button data-fmt="webp">WebP</button>
+          </div>
+        </div>
+        <div class="row" id="qualityRow" style="display:none;">
+          <label class="sub">Quality <span id="qualityVal" style="float:right; font-family:var(--mono); color:var(--ink);">92</span></label>
+          <input type="range" min="50" max="100" value="92" id="qualityRange">
+        </div>
+        <div class="row">
+          <button class="btn accent" id="exportBtn2" style="justify-content:center;">
+            <svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/></svg>
+            Download
+          </button>
+        </div>
+      </div>
+      <div class="prop-group">
+        <h4 class="prop-h">Info</h4>
+        <div style="display:grid; grid-template-columns:auto 1fr; gap:4px 14px; font-size:12px; color:var(--ink-2);">
+          <span style="color:var(--muted);">Dims</span><span style="font-family:var(--mono);" id="infoDim">—</span>
+          <span style="color:var(--muted);">Layers</span><span style="font-family:var(--mono);" id="infoLayers">0</span>
+          <span style="color:var(--muted);">Format</span><span style="font-family:var(--mono);" id="infoFmt">PNG</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
 
-					<hr />
-					<a class="btn btn-danger controlButtons" id="turnModel1">2 Labels per row</a>
-					<!--<div id="modelone">-->
-						<!--Your message:<input type="text" name="modelOneInput"  value="Enter Your Text" />-->
-						<!--Text Size: <input type="number" name="textSize" value="50" />-->
-						<!--Text Color: <input type="text" name="textColor" value="white" />-->
-						<!--Font:-->
-							<!--<select name="font">-->
-								<!--<option value="Andale Mono">Andale Mono</option>-->
-								<!--<option value="Courier">Courier</option>-->
-								<!--<option value="Courier New">Courier New</option>-->
-								<!--<option value="Georgia">Georgia</option>-->
-							<!--</select>-->
-					<!--</div>	-->
-					
-					 <a class="btn btn-danger controlButtons" id="turnModel2">3 labels per row</a>
-					<!--<div id="modelTwo">-->
-						<!--Your message:<input type="text" name="modelTwoInput"  value="Enter Your Text" />-->
-						<!--Text Size: <input type="number" name="textSizeModelTwo" value="50" />-->
-						<!--Text Color: <input type="text" name="textColorModelTwo" value="white" />-->
-					<!--</div>-->
+<input type="file" id="fileInput" accept="image/*" style="display:none;">
 
-					<a class="btn btn-danger controlButtons" id="turnModel3">Top Left Diagonal</a><br />
-					<a class="btn btn-danger controlButtons" id="turnModel4">Top Right Diagonal</a>
-					<a class="btn btn-danger controlButtons" id="turnModel5">2 Top 1 Middle 2 Bottom</a>
+<div class="tweaks" id="tweaksPanel">
+  <h4>Tweaks <button class="close" id="tweaksClose">×</button></h4>
+  <div class="row" style="margin-bottom:10px;">
+    <label class="sub">Theme</label>
+    <div class="seg" id="themeSeg">
+      <button data-theme="warm" class="active">Warm</button>
+      <button data-theme="cool">Cool</button>
+      <button data-theme="mono">Mono</button>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px;">
+    <label class="sub">Stage background</label>
+    <div class="seg" id="stageSeg">
+      <button data-stage="dark" class="active">Dark</button>
+      <button data-stage="gray">Gray</button>
+      <button data-stage="light">Light</button>
+    </div>
+  </div>
+  <div class="row">
+    <label class="sub">Accent</label>
+    <div class="swatches">
+      <div class="sw active" style="background:oklch(0.72 0.14 65)"  data-accent="oklch(0.72 0.14 65)"></div>
+      <div class="sw"        style="background:oklch(0.7 0.16 150)"  data-accent="oklch(0.7 0.16 150)"></div>
+      <div class="sw"        style="background:oklch(0.65 0.18 260)" data-accent="oklch(0.65 0.18 260)"></div>
+      <div class="sw"        style="background:oklch(0.65 0.22 15)"  data-accent="oklch(0.65 0.22 15)"></div>
+      <div class="sw"        style="background:oklch(0.65 0.2 320)"  data-accent="oklch(0.65 0.2 320)"></div>
+    </div>
+  </div>
+</div>
 
-					<a class="btn btn-primary clearText controlButtons">Clear</a><br /><br />
-
-					<a class="btn btn-warning" name="addMoreWatermarks">Add More Watermarks</a>
-					<div id="watermarksContainer"></div>
-					<hr />
-
-					<h3>Final Step - Select an extension for the picture and save it to your computer</h3>
-					<hr />
-					<p>
-
-						<select class="form-control" style="width: 300px;" name="chooseExtension">
-							<option value=".jpg">.jpg</option>
-							<option value=".png">.png</option>
-						</select><br />
-						<a class="btn btn-success saveWatermarkedImage">Save Watermarked Image</a>
-					</p><br />
-				</div>	
-					
-			</div>	
-		</div>	
-	</div>		
-	
-	
+<script type="module" src="src/app.js"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ import { canvas, Renderer } from './renderer.js';
 import { bus } from './utils.js';
 
 const handleLayer = document.getElementById('handleLayer');
+let _lastDown = { id: null, t: 0 };
 
 export const Handles = {
   render() {
@@ -47,8 +48,55 @@ export const Handles = {
     return handleElement;
   },
 
+  _openInlineEdit(handleEl, watermark) {
+    const editor = document.createElement('textarea');
+    editor.className = 'handle-editor';
+    editor.value = watermark.text;
+
+    editor.addEventListener('pointerdown', e => e.stopPropagation());
+
+    const commit = () => {
+      watermark.text = editor.value;
+      bus.emit('text-change');
+      Handles.render();
+    };
+
+    editor.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        editor.removeEventListener('blur', commit);
+        commit();
+      } else if (e.key === 'Escape') {
+        editor.removeEventListener('blur', commit);
+        Handles.render();
+      }
+    });
+
+    handleEl.appendChild(editor);
+    // Defer focus so the element is rendered and no spurious blur fires
+    // during the pointerdown event that opened the editor.
+    requestAnimationFrame(() => {
+      editor.focus();
+      editor.select();
+      editor.addEventListener('blur', commit);
+    });
+  },
+
   _attachDragBehavior(handleElement, watermark) {
     handleElement.addEventListener('pointerdown', pointerDownEvent => {
+      if (pointerDownEvent.target.classList.contains('handle-editor')) return;
+
+      const now = Date.now();
+      const isDouble = _lastDown.id === watermark.id && (now - _lastDown.t) < 600;
+      _lastDown = { id: watermark.id, t: isDouble ? 0 : now };
+
+      if (isDouble) {
+        if (state.selectedId !== watermark.id) bus.emit('select', { id: watermark.id });
+        const current = handleLayer.querySelector(`[data-id="${watermark.id}"]`);
+        if (current) Handles._openInlineEdit(current, watermark);
+        return;
+      }
+
       pointerDownEvent.preventDefault();
 
       // Capture on the persistent layer element BEFORE bus.emit('select') triggers
@@ -80,3 +128,4 @@ export const Handles = {
     });
   },
 };
+

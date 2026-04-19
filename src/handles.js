@@ -2,66 +2,81 @@ import { state } from './state.js';
 import { canvas, Renderer } from './renderer.js';
 import { bus } from './utils.js';
 
-const _el = document.getElementById('handleLayer');
+const handleLayer = document.getElementById('handleLayer');
 
 export const Handles = {
   render() {
-    _el.innerHTML = '';
-    const { width: cw, height: ch } = canvas.getBoundingClientRect();
-    _el.style.width  = `${cw}px`;
-    _el.style.height = `${ch}px`;
+    handleLayer.innerHTML = '';
+    const { width: canvasDisplayWidth, height: canvasDisplayHeight } = canvas.getBoundingClientRect();
+    handleLayer.style.width  = `${canvasDisplayWidth}px`;
+    handleLayer.style.height = `${canvasDisplayHeight}px`;
     state.watermarks
-      .filter(wm => wm.visible)
-      .forEach(wm => _el.appendChild(this._createEl(wm, cw, ch)));
+      .filter(watermark => watermark.visible)
+      .forEach(watermark => handleLayer.appendChild(
+        this._createHandleElement(watermark, canvasDisplayWidth, canvasDisplayHeight)
+      ));
   },
 
-  _createEl(wm, cw, ch) {
-    const el  = document.createElement('div');
-    const { w, h } = Renderer.measure(wm);
-    el.className       = `handle${wm.id === state.selectedId ? ' selected' : ''}`;
-    el.style.left      = `${wm.x * cw}px`;
-    el.style.top       = `${wm.y * ch}px`;
-    el.style.width     = `${Math.max(30, w + 12)}px`;
-    el.style.height    = `${Math.max(16, h + 8)}px`;
-    el.style.transform = `translate(-50%, -50%) rotate(${wm.rotation}deg)`;
-    el.dataset.id      = wm.id;
+  _createHandleElement(watermark, canvasDisplayWidth, canvasDisplayHeight) {
+    const handleElement = document.createElement('div');
+    const { w: textDisplayWidth, h: textDisplayHeight } = Renderer.measure(watermark);
 
-    if (wm.id === state.selectedId) {
-      const tag = document.createElement('div');
-      tag.className   = 'tag';
-      tag.textContent = wm.text.split('\n')[0].slice(0, 24) || 'Watermark';
-      const c1 = document.createElement('div'); c1.className = 'corner c-bl';
-      const c2 = document.createElement('div'); c2.className = 'corner c-br';
-      el.append(tag, c1, c2);
+    handleElement.className  = `handle${watermark.id === state.selectedId ? ' selected' : ''}`;
+    handleElement.style.left = `${watermark.x * canvasDisplayWidth}px`;
+    handleElement.style.top  = `${watermark.y * canvasDisplayHeight}px`;
+    handleElement.style.width  = `${Math.max(30, textDisplayWidth + 12)}px`;
+    handleElement.style.height = `${Math.max(16, textDisplayHeight + 8)}px`;
+    handleElement.style.transform = `translate(-50%, -50%) rotate(${watermark.rotation}deg)`;
+    handleElement.dataset.id = watermark.id;
+
+    if (watermark.id === state.selectedId) {
+      const labelTag = document.createElement('div');
+      labelTag.className   = 'tag';
+      labelTag.textContent = watermark.text.split('\n')[0].slice(0, 24) || 'Watermark';
+
+      const bottomLeftCorner  = document.createElement('div');
+      bottomLeftCorner.className  = 'corner c-bl';
+
+      const bottomRightCorner = document.createElement('div');
+      bottomRightCorner.className = 'corner c-br';
+
+      handleElement.append(labelTag, bottomLeftCorner, bottomRightCorner);
     }
 
-    this._attachDrag(el, wm);
-    return el;
+    this._attachDragBehavior(handleElement, watermark);
+    return handleElement;
   },
 
-  _attachDrag(el, wm) {
-    el.addEventListener('pointerdown', e => {
-      e.preventDefault();
-      bus.emit('select', { id: wm.id });
+  _attachDragBehavior(handleElement, watermark) {
+    handleElement.addEventListener('pointerdown', pointerDownEvent => {
+      pointerDownEvent.preventDefault();
 
-      const startX  = e.clientX, startY  = e.clientY;
-      const startWX = wm.x,      startWY = wm.y;
-      el.setPointerCapture(e.pointerId);
-      const { width: rw, height: rh } = canvas.getBoundingClientRect();
+      // Capture on the persistent layer element BEFORE bus.emit('select') triggers
+      // Handles.render(), which destroys handleElement from the DOM. Calling
+      // setPointerCapture on a detached element throws InvalidStateError.
+      handleLayer.setPointerCapture(pointerDownEvent.pointerId);
 
-      const onMove = me => {
-        wm.x = Math.max(0, Math.min(1, startWX + (me.clientX - startX) / rw));
-        wm.y = Math.max(0, Math.min(1, startWY + (me.clientY - startY) / rh));
-        bus.emit('move', wm);
+      bus.emit('select', { id: watermark.id });
+
+      const pointerStartX   = pointerDownEvent.clientX;
+      const pointerStartY   = pointerDownEvent.clientY;
+      const watermarkStartX = watermark.x;
+      const watermarkStartY = watermark.y;
+      const { width: canvasDisplayWidth, height: canvasDisplayHeight } = canvas.getBoundingClientRect();
+
+      const onPointerMove = moveEvent => {
+        watermark.x = Math.max(0, Math.min(1, watermarkStartX + (moveEvent.clientX - pointerStartX) / canvasDisplayWidth));
+        watermark.y = Math.max(0, Math.min(1, watermarkStartY + (moveEvent.clientY - pointerStartY) / canvasDisplayHeight));
+        bus.emit('move', watermark);
       };
 
-      const onUp = () => {
-        el.removeEventListener('pointermove', onMove);
-        el.removeEventListener('pointerup',   onUp);
+      const onPointerUp = () => {
+        handleLayer.removeEventListener('pointermove', onPointerMove);
+        handleLayer.removeEventListener('pointerup',   onPointerUp);
       };
 
-      el.addEventListener('pointermove', onMove);
-      el.addEventListener('pointerup',   onUp);
+      handleLayer.addEventListener('pointermove', onPointerMove);
+      handleLayer.addEventListener('pointerup',   onPointerUp);
     });
   },
 };

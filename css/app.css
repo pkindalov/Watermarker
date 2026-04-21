@@ -330,3 +330,127 @@ input[type="range"]::-moz-range-thumb {
 .color-picker-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .align-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
 .btn.align-btn { padding: 6px 0; justify-content: center; font-family: var(--mono); }
+
+/* ── Mobile layout (≤ 768px) ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Switch from fixed 3-column grid to stacked flex */
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100svh;
+    /* Pin to viewport width so topbar overflow never widens the document */
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* ── Topbar ── */
+  .topbar {
+    order: 1;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 12px;
+    height: 48px;
+    min-width: 0;
+  }
+  /* Allow flex children to shrink below their content width */
+  .topbar-left,
+  .top-actions { min-width: 0; flex-shrink: 1; }
+  /* Remove elements that eat space on small screens */
+  .file-meta,
+  .topbar-divider,
+  .brand-sub,
+  #resetBtn { display: none; }
+  /* Bigger tap targets on top buttons */
+  .topbar .btn { padding: 9px 12px; }
+
+  /* ── Canvas stage — comes right after topbar ── */
+  .stage-wrap {
+    order: 2;
+    overflow: visible;
+    flex-shrink: 0;
+  }
+  .stage-toolbar { padding: 0 10px; }
+  .stage-toolbar .doc-name { display: none; }
+  .stage {
+    padding: 16px;
+    overflow: visible;
+    min-height: 0;
+  }
+  .canvas-holder { max-width: calc(100vw - 32px); }
+  #mainCanvas {
+    max-width: 100%;
+    /* Let height be natural — don't clip for scroll layout */
+    max-height: none;
+    height: auto;
+  }
+  .dropzone { inset: 16px; }
+
+  /* ── Left panel (layers + presets) — below canvas ── */
+  .left {
+    order: 3;
+    border-right: none;
+    border-top: 1px solid var(--hair);
+    overflow: visible;
+    max-height: none;
+  }
+  .layer-list {
+    flex: none;
+    max-height: 160px;
+    overflow-y: auto;
+  }
+  /* Presets: horizontal scroll row instead of 3-col grid */
+  .preset-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .preset-grid::-webkit-scrollbar { display: none; }
+  .preset {
+    flex: 0 0 72px;
+    width: 72px;
+    aspect-ratio: 1;
+  }
+
+  /* ── Right panel (properties) — below left panel ── */
+  .right {
+    order: 4;
+    border-left: none;
+    border-top: 1px solid var(--hair);
+    overflow-y: visible;
+  }
+  .tab-bar { position: static; }
+
+  /* ── Tweaks panel — full-width at bottom ── */
+  .tweaks { right: 12px; left: 12px; bottom: 12px; width: auto; }
+
+  /* ── Touch-friendly form controls ── */
+  /* 16px minimum prevents iOS from auto-zooming into inputs */
+  .input, .select, textarea.input { font-size: 16px; padding: 9px 10px; }
+  input[type="range"] { height: 6px; }
+  input[type="range"]::-webkit-slider-thumb { width: 20px; height: 20px; }
+  input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; }
+  .seg button { padding: 8px 0; font-size: 13px; }
+  .btn.full { padding: 11px; font-size: 13px; }
+}
+
+/* ── Extra-small screens (< 400px) ───────────────────────────────── */
+@media (max-width: 399px) {
+  /* Format button is redundant — format lives in the Image tab */
+  #formatBtn { display: none; }
+  /* Tighten topbar so brand + upload + export fit on 320px */
+  .topbar { padding: 0 8px; gap: 6px; }
+  .topbar .btn { padding: 8px 10px; }
+}

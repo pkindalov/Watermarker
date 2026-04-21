@@ -1,6 +1,7 @@
 import { state } from './state.js';
 import { bus, escHtml, toHex } from './utils.js';
 import { FONT_OPTIONS, SWATCH_COLORS } from './constants.js';
+import { canvas, Renderer } from './renderer.js';
 
 const _body  = document.getElementById('propBody');
 const _empty = document.getElementById('emptyState');
@@ -112,9 +113,9 @@ export const PropPanel = {
           <label class="sub">Quick align</label>
           <div class="align-grid">
             ${[
-              ['↖',0.1,0.1],['↑',0.5,0.1],['↗',0.9,0.1],
-              ['←',0.1,0.5],['⊙',0.5,0.5],['→',0.9,0.5],
-              ['↙',0.1,0.9],['↓',0.5,0.9],['↘',0.9,0.9],
+              ['↖',0,0],['↑',0.5,0],['↗',1,0],
+              ['←',0,0.5],['⊙',0.5,0.5],['→',1,0.5],
+              ['↙',0,1],['↓',0.5,1],['↘',1,1],
             ].map(([sym, x, y]) =>
               `<button class="btn align-btn" data-ax="${x}" data-ay="${y}">${sym}</button>`
             ).join('')}
@@ -193,8 +194,15 @@ export const PropPanel = {
 
     _body.querySelectorAll('[data-ax]').forEach(b => {
       b.addEventListener('click', () => {
-        wm.x = +b.dataset.ax;
-        wm.y = +b.dataset.ay;
+        const { w: tw, h: th } = Renderer.measure(wm);
+        const rect  = canvas.getBoundingClientRect();
+        const halfW = tw / (2 * rect.width);
+        const halfH = th / (2 * rect.height);
+        const M     = 0.005; // 0.5% margin from edge
+        const ax    = +b.dataset.ax;
+        const ay    = +b.dataset.ay;
+        wm.x = ax === 0 ? halfW + M : ax === 1 ? 1 - halfW - M : 0.5;
+        wm.y = ay === 0 ? halfH + M : ay === 1 ? 1 - halfH - M : 0.5;
         this.syncPosition(wm);
         bus.emit('render');
       });

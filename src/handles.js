@@ -119,6 +119,7 @@ export const Handles = {
       const { width: canvasDisplayWidth, height: canvasDisplayHeight } = canvas.getBoundingClientRect();
 
       const onPointerMove = moveEvent => {
+        moveEvent.preventDefault();
         watermark.x = Math.max(0, Math.min(1, watermarkStartX + (moveEvent.clientX - pointerStartX) / canvasDisplayWidth));
         watermark.y = Math.max(0, Math.min(1, watermarkStartY + (moveEvent.clientY - pointerStartY) / canvasDisplayHeight));
         bus.emit('move', watermark);
@@ -129,7 +130,9 @@ export const Handles = {
         handleLayer.removeEventListener('pointerup',   onPointerUp);
       };
 
-      handleLayer.addEventListener('pointermove', onPointerMove);
+      // { passive: false } is required — without it, preventDefault() is silently
+      // ignored on mobile and the browser scrolls the page during the drag.
+      handleLayer.addEventListener('pointermove', onPointerMove, { passive: false });
       handleLayer.addEventListener('pointerup',   onPointerUp);
     };
     handleElement.addEventListener('pointerdown', onPointerDown);

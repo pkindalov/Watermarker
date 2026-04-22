@@ -160,6 +160,7 @@ body {
   position: absolute; border: 1.5px dashed var(--accent);
   background: rgba(255,189,107,0.04); transform: translate(-50%, -50%);
   pointer-events: auto; cursor: move; transition: background 0.1s; padding: 4px 6px;
+  touch-action: none;
 }
 .handle:hover { background: rgba(255,189,107,0.12); }
 .handle.selected { border-style: solid; background: rgba(255,189,107,0.1); box-shadow: 0 0 0 1px rgba(0,0,0,0.4); }

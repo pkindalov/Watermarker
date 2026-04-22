@@ -23,9 +23,17 @@ python -m http.server
 
 ---
 
-## Deprecated — original README
+## Deprecated — original version
 
-> The content below is from the original version of this project and no longer reflects the current codebase.
+The original version of this app (simpler, jQuery-based) is preserved as the git tag **[v1-legacy](https://github.com/pkindalov/Watermarker/releases/tag/v1-legacy)**.
+
+You can download it directly from GitHub — no git required:
+
+- **[Download v1-legacy as zip](https://github.com/pkindalov/Watermarker/archive/refs/tags/v1-legacy.zip)**
+
+Or browse all tags at [github.com/pkindalov/Watermarker/tags](https://github.com/pkindalov/Watermarker/tags).
+
+> Original README:
 
 Little web application to put watermark on images.
 

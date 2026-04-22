@@ -2,7 +2,8 @@ import { state } from './state.js';
 import { canvas } from './renderer.js';
 import { bus } from './utils.js';
 
-const STAGE_PADDING = 64; // breathing room between canvas edge and viewport
+const STAGE_PADDING      = 64;  // breathing room between canvas edge and viewport
+const MOBILE_BREAKPOINT  = 768; // must match the CSS @media breakpoint
 
 export const ImageManager = {
   load(src, name) {
@@ -31,7 +32,15 @@ export const ImageManager = {
     canvas.width  = w;
     canvas.height = h;
     const stage = document.getElementById('stage');
-    const scale = Math.min((stage.clientWidth - STAGE_PADDING) / w, (stage.clientHeight - STAGE_PADDING) / h, 1);
+    const availableWidth = stage.clientWidth - STAGE_PADDING;
+    // On mobile the layout scrolls vertically — the stage has no fixed container height,
+    // so stage.clientHeight reflects the canvas itself (circular). Each fitToStage() call
+    // would shrink the scale a bit more, causing the canvas to collapse toward 0%.
+    // On mobile we only constrain by width; height is unconstrained in the scroll layout.
+    const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
+    const scale = isMobile
+      ? Math.min(availableWidth / w, 1)
+      : Math.min(availableWidth / w, (stage.clientHeight - STAGE_PADDING) / h, 1);
     // Inline style required — these are runtime-computed values, not static CSS.
     canvas.style.width  = `${w * scale}px`;
     canvas.style.height = `${h * scale}px`;

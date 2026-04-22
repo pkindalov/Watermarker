@@ -16,18 +16,19 @@ export const Tweaks = {
   },
 
   persist() {
-    try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: this._s }, '*'); } catch { /* cross-origin */ }
+    try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: this._s }, '*'); } catch (err) { console.debug('tweaks: postMessage blocked (cross-origin)', err); }
   },
 
   init() {
     this.apply();
     const panel = document.getElementById('tweaksPanel');
 
-    window.addEventListener('message', ({ data: d = {} }) => {
+    const onMessage = ({ data: d = {} }) => {
       if (d.type === '__activate_edit_mode')   panel.classList.add('visible');
       if (d.type === '__deactivate_edit_mode') panel.classList.remove('visible');
-    });
-    try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch { /* cross-origin */ }
+    };
+    window.addEventListener('message', onMessage);
+    try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch (err) { console.debug('tweaks: postMessage blocked (cross-origin)', err); }
 
     document.getElementById('tweaksClose').addEventListener('click', () => panel.classList.remove('visible'));
 

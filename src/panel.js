@@ -198,11 +198,11 @@ export const PropPanel = {
         const rect  = canvas.getBoundingClientRect();
         const halfW = tw / (2 * rect.width);
         const halfH = th / (2 * rect.height);
-        const M     = 0.005; // 0.5% margin from edge
+        const EDGE_MARGIN = 0.005; // 0.5% breathing room from canvas edge
         const ax    = +b.dataset.ax;
         const ay    = +b.dataset.ay;
-        wm.x = ax === 0 ? halfW + M : ax === 1 ? 1 - halfW - M : 0.5;
-        wm.y = ay === 0 ? halfH + M : ay === 1 ? 1 - halfH - M : 0.5;
+        wm.x = ax === 0 ? halfW + EDGE_MARGIN : ax === 1 ? 1 - halfW - EDGE_MARGIN : 0.5;
+        wm.y = ay === 0 ? halfH + EDGE_MARGIN : ay === 1 ? 1 - halfH - EDGE_MARGIN : 0.5;
         this.syncPosition(wm);
         bus.emit('render');
       });

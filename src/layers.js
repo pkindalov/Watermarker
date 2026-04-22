@@ -9,8 +9,8 @@ export const LayerList = {
 
     if (!state.watermarks.length) {
       const msg = document.createElement('div');
-      msg.style.cssText = 'padding:20px 12px; text-align:center; color:var(--muted); font-size:12px;';
-      msg.textContent   = 'No layers. Add one below.';
+      msg.className   = 'layer-empty';
+      msg.textContent = 'No layers. Add one below.';
       _el.appendChild(msg);
       document.getElementById('infoLayers').textContent = '0';
       return;
@@ -37,17 +37,13 @@ export const LayerList = {
       <div class="del" title="Delete">×</div>
     `;
 
-    li.querySelector('.eye').addEventListener('click', e => {
-      e.stopPropagation();
-      bus.emit('toggle-visibility', { id: wm.id });
-    });
+    const onEyeClick  = e => { e.stopPropagation(); bus.emit('toggle-visibility', { id: wm.id }); };
+    const onDelClick  = e => { e.stopPropagation(); bus.emit('delete', { id: wm.id }); };
+    const onItemClick = () => bus.emit('select', { id: wm.id });
 
-    li.querySelector('.del').addEventListener('click', e => {
-      e.stopPropagation();
-      bus.emit('delete', { id: wm.id });
-    });
-
-    li.addEventListener('click', () => bus.emit('select', { id: wm.id }));
+    li.querySelector('.eye').addEventListener('click', onEyeClick);
+    li.querySelector('.del').addEventListener('click', onDelClick);
+    li.addEventListener('click', onItemClick);
     return li;
   },
 };

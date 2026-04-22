@@ -42,11 +42,19 @@ export const Presets = {
       case 'edgeBottom':
         mk({ text: `© ${text} – 2026`, x: 0.5, y: 0.94, size: 20, letterSpacing: 4, opacity: 0.75 });
         break;
-      case 'tileDiag':
-        for (let r = -2; r < 8; r++)
-          for (let c = -1; c < 5; c++)
-            mk({ x: 0.1 + c * 0.3 + (r % 2) * 0.15, y: 0.1 + r * 0.14, size: 20, opacity: 0.35, rotation: -30 });
+      case 'tileDiag': {
+        // Rows/cols start negative and end beyond 1.0 so rotated tiles bleed
+        // outside canvas edges, keeping coverage flush to the corners.
+        const TILE_ROW_START   = -2;
+        const TILE_ROW_END     =  8;
+        const TILE_COL_START   = -1;
+        const TILE_COL_END     =  5;
+        const TILE_ROW_STAGGER = 0.15; // odd rows offset by this fraction to break up the grid
+        for (let r = TILE_ROW_START; r < TILE_ROW_END; r++)
+          for (let c = TILE_COL_START; c < TILE_COL_END; c++)
+            mk({ x: 0.1 + c * 0.3 + (r % 2) * TILE_ROW_STAGGER, y: 0.1 + r * 0.14, size: 20, opacity: 0.35, rotation: -30 });
         break;
+      }
       // 'clear' — state.watermarks already reset above
     }
 

@@ -5,6 +5,10 @@ import { bus } from './utils.js';
 const handleLayer = document.getElementById('handleLayer');
 let _lastDown = { id: null, t: 0 };
 
+const DOUBLE_CLICK_MAX_MS = 600;
+const MIN_HANDLE_W = 30; // minimum clickable width in px
+const MIN_HANDLE_H = 16; // minimum clickable height in px
+
 export const Handles = {
   render() {
     handleLayer.innerHTML = '';
@@ -25,8 +29,8 @@ export const Handles = {
     handleElement.className  = `handle${watermark.id === state.selectedId ? ' selected' : ''}`;
     handleElement.style.left = `${watermark.x * canvasDisplayWidth}px`;
     handleElement.style.top  = `${watermark.y * canvasDisplayHeight}px`;
-    handleElement.style.width  = `${Math.max(30, textDisplayWidth + 12)}px`;
-    handleElement.style.height = `${Math.max(16, textDisplayHeight + 8)}px`;
+    handleElement.style.width  = `${Math.max(MIN_HANDLE_W, textDisplayWidth + 12)}px`;
+    handleElement.style.height = `${Math.max(MIN_HANDLE_H, textDisplayHeight + 8)}px`;
     handleElement.style.transform = `translate(-50%, -50%) rotate(${watermark.rotation}deg)`;
     handleElement.dataset.id = watermark.id;
 
@@ -53,7 +57,8 @@ export const Handles = {
     editor.className = 'handle-editor';
     editor.value = watermark.text;
 
-    editor.addEventListener('pointerdown', e => e.stopPropagation());
+    const onEditorPointerDown = e => e.stopPropagation();
+    editor.addEventListener('pointerdown', onEditorPointerDown);
 
     const commit = () => {
       watermark.text = editor.value;
@@ -61,7 +66,7 @@ export const Handles = {
       Handles.render();
     };
 
-    editor.addEventListener('keydown', e => {
+    const onEditorKeyDown = e => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         editor.removeEventListener('blur', commit);
@@ -70,7 +75,8 @@ export const Handles = {
         editor.removeEventListener('blur', commit);
         Handles.render();
       }
-    });
+    };
+    editor.addEventListener('keydown', onEditorKeyDown);
 
     handleEl.appendChild(editor);
     // Defer focus so the element is rendered and no spurious blur fires
@@ -83,11 +89,11 @@ export const Handles = {
   },
 
   _attachDragBehavior(handleElement, watermark) {
-    handleElement.addEventListener('pointerdown', pointerDownEvent => {
+    const onPointerDown = pointerDownEvent => {
       if (pointerDownEvent.target.classList.contains('handle-editor')) return;
 
       const now = Date.now();
-      const isDouble = _lastDown.id === watermark.id && (now - _lastDown.t) < 600;
+      const isDouble = _lastDown.id === watermark.id && (now - _lastDown.t) < DOUBLE_CLICK_MAX_MS;
       _lastDown = { id: watermark.id, t: isDouble ? 0 : now };
 
       if (isDouble) {
@@ -125,7 +131,8 @@ export const Handles = {
 
       handleLayer.addEventListener('pointermove', onPointerMove);
       handleLayer.addEventListener('pointerup',   onPointerUp);
-    });
+    };
+    handleElement.addEventListener('pointerdown', onPointerDown);
   },
 };
 

@@ -103,6 +103,8 @@ body {
 .layer .del { color: var(--muted); opacity: 0; font-size: 14px; cursor: pointer; }
 .layer:hover .del { opacity: 1; }
 
+.layer-empty { padding: 20px 12px; text-align: center; color: var(--muted); font-size: 0.75rem; }
+
 .add-layer {
   display: flex; align-items: center; justify-content: center; gap: 6px;
   margin: 4px 8px 10px; padding: 9px; border: 1px dashed var(--hair);

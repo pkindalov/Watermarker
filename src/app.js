@@ -64,15 +64,19 @@ bus.on('toggle-visibility', ({ id }) => {
 
 // ── Actions ───────────────────────────────────────────────────────────────────
 
-function addWatermark() {
+const addWatermark = function() {
   const wm = createWatermark({ x: 0.5, y: 0.5 });
   state.watermarks.push(wm);
   bus.emit('select', { id: wm.id });
-}
+};
 
 // ── DOM event wiring ──────────────────────────────────────────────────────────
 
-function initEvents() {
+const ARROW_STEP            = 0.005;
+const ARROW_STEP_SHIFT      = 0.05; // hold Shift for a larger nudge
+const INITIAL_WATERMARK_DELAY_MS = 150;
+
+const initEvents = function() {
   const fileInput = document.getElementById('fileInput');
 
   const loadFile = f => {
@@ -83,82 +87,85 @@ function initEvents() {
     fileInput.value = '';
   };
 
-  document.getElementById('uploadBtn').addEventListener('click',  () => fileInput.click());
-  document.getElementById('uploadBtn2').addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', e => loadFile(e.target.files[0]));
-
-  document.getElementById('resetBtn').addEventListener('click', () => {
+  const onUploadClick  = () => fileInput.click();
+  const onFileChange   = e => loadFile(e.target.files[0]);
+  const onResetClick   = () => {
     state.watermarks = [];
     state.selectedId = null;
     Renderer.render();
     Handles.render();
     LayerList.render();
     PropPanel.render();
-  });
+  };
+  const onFitClick    = () => { ImageManager.fitToStage(); bus.emit('render'); };
+  const onExportClick = () => Exporter.export();
+  const onFormatClick = () => document.querySelector('.tab[data-tab="image"]').click();
+  const onQualityInput = e => {
+    state.exportQuality = +e.target.value;
+    document.getElementById('qualityVal').textContent = e.target.value;
+  };
+
+  document.getElementById('uploadBtn').addEventListener('click',  onUploadClick);
+  document.getElementById('uploadBtn2').addEventListener('click', onUploadClick);
+  fileInput.addEventListener('change', onFileChange);
+  document.getElementById('resetBtn').addEventListener('click', onResetClick);
 
   ['addWatermarkBtn', 'addWatermarkTop', 'toolAddText'].forEach(id => {
     document.getElementById(id).addEventListener('click', addWatermark);
   });
 
   document.querySelectorAll('.preset').forEach(btn => {
-    btn.addEventListener('click', () => Presets.apply(btn.dataset.preset));
+    const onPresetClick = () => Presets.apply(btn.dataset.preset);
+    btn.addEventListener('click', onPresetClick);
   });
 
   document.querySelectorAll('.tab').forEach(t => {
-    t.addEventListener('click', () => {
+    const onTabClick = () => {
       document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
       t.classList.add('active');
       document.getElementById('tab-watermark').classList.toggle('visible', t.dataset.tab === 'watermark');
       document.getElementById('tab-image').classList.toggle('visible', t.dataset.tab === 'image');
-    });
+    };
+    t.addEventListener('click', onTabClick);
   });
 
-  document.getElementById('resSeg').addEventListener('click', e => {
+  const onResSegClick = e => {
     const b = e.target.closest('button[data-res]');
     if (!b) return;
     segSelect('resSeg', b.dataset.res, 'res');
     state.resizeTo = +b.dataset.res;
     if (state.image) { ImageManager.fitToStage(); bus.emit('render'); }
-  });
+  };
+  document.getElementById('resSeg').addEventListener('click', onResSegClick);
 
-  document.getElementById('fmtSeg').addEventListener('click', e => {
+  const onFmtSegClick = e => {
     const b = e.target.closest('button[data-fmt]');
     if (!b) return;
     segSelect('fmtSeg', b.dataset.fmt, 'fmt');
     state.exportFormat = b.dataset.fmt;
     document.getElementById('qualityRow').classList.toggle('visible', b.dataset.fmt !== 'png');
-    document.querySelector('#formatBtn span').textContent   = b.dataset.fmt.toUpperCase();
-    document.getElementById('infoFmt').textContent          = b.dataset.fmt.toUpperCase();
-  });
+    document.querySelector('#formatBtn span').textContent = b.dataset.fmt.toUpperCase();
+    document.getElementById('infoFmt').textContent        = b.dataset.fmt.toUpperCase();
+  };
+  document.getElementById('fmtSeg').addEventListener('click', onFmtSegClick);
 
-  document.getElementById('qualityRange').addEventListener('input', e => {
-    state.exportQuality = +e.target.value;
-    document.getElementById('qualityVal').textContent = e.target.value;
-  });
-
-  document.getElementById('formatBtn').addEventListener('click', () => {
-    document.querySelector('.tab[data-tab="image"]').click();
-  });
-
-  document.getElementById('exportBtn').addEventListener('click',  () => Exporter.export());
-  document.getElementById('exportBtn2').addEventListener('click', () => Exporter.export());
-
-  document.getElementById('fitBtn').addEventListener('click', () => {
-    ImageManager.fitToStage();
-    bus.emit('render');
-  });
+  document.getElementById('qualityRange').addEventListener('input', onQualityInput);
+  document.getElementById('formatBtn').addEventListener('click',    onFormatClick);
+  document.getElementById('exportBtn').addEventListener('click',    onExportClick);
+  document.getElementById('exportBtn2').addEventListener('click',   onExportClick);
+  document.getElementById('fitBtn').addEventListener('click',       onFitClick);
 
   const stageEl  = document.getElementById('stage');
   const dropzone = document.getElementById('dropzone');
-  stageEl.addEventListener('dragover',  e => { e.preventDefault(); dropzone.classList.add('active'); });
-  stageEl.addEventListener('dragleave', e => { if (e.target === stageEl) dropzone.classList.remove('active'); });
-  stageEl.addEventListener('drop', e => {
+
+  const onDragOver  = e => { e.preventDefault(); dropzone.classList.add('active'); };
+  const onDragLeave = e => { if (e.target === stageEl) dropzone.classList.remove('active'); };
+  const onDrop      = e => {
     e.preventDefault();
     dropzone.classList.remove('active');
     loadFile(e.dataTransfer.files[0]);
-  });
-
-  stageEl.addEventListener('pointerdown', e => {
+  };
+  const onStagePointerDown = e => {
     if (e.target === stageEl || e.target === canvas) {
       state.selectedId = null;
       Renderer.render();
@@ -166,9 +173,14 @@ function initEvents() {
       LayerList.render();
       PropPanel.render();
     }
-  });
+  };
 
-  document.addEventListener('keydown', e => {
+  stageEl.addEventListener('dragover',    onDragOver);
+  stageEl.addEventListener('dragleave',   onDragLeave);
+  stageEl.addEventListener('drop',        onDrop);
+  stageEl.addEventListener('pointerdown', onStagePointerDown);
+
+  const onKeyDown = e => {
     if (e.target.matches('input, textarea, select')) return;
     const wm = state.watermarks.find(w => w.id === state.selectedId);
 
@@ -181,19 +193,21 @@ function initEvents() {
 
     } else if (wm && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
       e.preventDefault();
-      const step = e.shiftKey ? 0.05 : 0.005;
+      const step = e.shiftKey ? ARROW_STEP_SHIFT : ARROW_STEP;
       const deltas = { ArrowUp: [0, -step], ArrowDown: [0, step], ArrowLeft: [-step, 0], ArrowRight: [step, 0] };
       const [dx, dy] = deltas[e.key];
       wm.x = Math.max(0, Math.min(1, wm.x + dx));
       wm.y = Math.max(0, Math.min(1, wm.y + dy));
       bus.emit('move', wm);
     }
-  });
+  };
+  document.addEventListener('keydown', onKeyDown);
 
-  window.addEventListener('resize', () => {
+  const onResize = () => {
     if (state.image) { ImageManager.fitToStage(); bus.emit('render'); }
-  });
-}
+  };
+  window.addEventListener('resize', onResize);
+};
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
@@ -204,4 +218,4 @@ PropPanel.render();
 
 ImageManager.load('images/examplePicture.jpg', 'example.jpg');
 
-setTimeout(() => addWatermark(), 150);
+setTimeout(() => addWatermark(), INITIAL_WATERMARK_DELAY_MS);

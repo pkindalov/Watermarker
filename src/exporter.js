@@ -1,6 +1,8 @@
 import { state } from './state.js';
 import { canvas, Renderer } from './renderer.js';
 
+const URL_REVOKE_DELAY_MS = 1000; // enough time for the browser download to start
+
 export const Exporter = {
   export() {
     if (!state.image) return;
@@ -17,7 +19,7 @@ export const Exporter = {
       document.body.append(a);
       a.click();
       a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setTimeout(() => URL.revokeObjectURL(url), URL_REVOKE_DELAY_MS);
     }, mime, q);
   },
 };

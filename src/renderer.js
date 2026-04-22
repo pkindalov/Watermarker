@@ -2,6 +2,7 @@ import { state } from './state.js';
 
 export const canvas = document.getElementById('mainCanvas');
 const ctx = canvas.getContext('2d');
+const LINE_HEIGHT_RATIO = 1.2;
 
 export const Renderer = {
   render() {
@@ -28,7 +29,7 @@ export const Renderer = {
     if (wm.rotation) ctx.rotate(wm.rotation * Math.PI / 180);
     if (ctx.letterSpacing !== undefined) ctx.letterSpacing = `${wm.letterSpacing}px`;
     const lines  = wm.text.split('\n');
-    const lh     = wm.size * 1.2;
+    const lh     = wm.size * LINE_HEIGHT_RATIO;
     const startY = -((lines.length - 1) * lh) / 2;
     lines.forEach((line, i) => ctx.fillText(line, 0, startY + i * lh));
     ctx.restore();
@@ -41,7 +42,7 @@ export const Renderer = {
     if (ctx.letterSpacing !== undefined) ctx.letterSpacing = `${wm.letterSpacing}px`;
     const lines = wm.text.split('\n');
     const maxW  = Math.max(...lines.map(l => ctx.measureText(l || ' ').width));
-    const totalH = lines.length * wm.size * 1.2;
+    const totalH = lines.length * wm.size * LINE_HEIGHT_RATIO;
     ctx.restore();
     return { w: (maxW + wm.letterSpacing) * scale, h: totalH * scale };
   },

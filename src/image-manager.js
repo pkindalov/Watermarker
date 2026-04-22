@@ -2,6 +2,8 @@ import { state } from './state.js';
 import { canvas } from './renderer.js';
 import { bus } from './utils.js';
 
+const STAGE_PADDING = 64; // breathing room between canvas edge and viewport
+
 export const ImageManager = {
   load(src, name) {
     const img = new Image();
@@ -29,7 +31,8 @@ export const ImageManager = {
     canvas.width  = w;
     canvas.height = h;
     const stage = document.getElementById('stage');
-    const scale = Math.min((stage.clientWidth - 64) / w, (stage.clientHeight - 64) / h, 1);
+    const scale = Math.min((stage.clientWidth - STAGE_PADDING) / w, (stage.clientHeight - STAGE_PADDING) / h, 1);
+    // Inline style required — these are runtime-computed values, not static CSS.
     canvas.style.width  = `${w * scale}px`;
     canvas.style.height = `${h * scale}px`;
     document.getElementById('zoomLabel').textContent = `${Math.round(scale * 100)}%`;
